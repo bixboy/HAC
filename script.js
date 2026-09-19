@@ -92,8 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
       { text: "🎵 Never gonna make you cry...", duration: 2400 },
       { text: "🎵 Never gonna say goodbye...", duration: 2400 },
       { text: "🎵 Never gonna tell a lie and hurt you...", duration: 3200 },
-      { text: "😂 ALORS LE HAVRE AC RECRUTE DU TRÈS TRÈS LOURD HEIN ? 😂", duration: 3500 },
-      { text: "💙🩵 ALLEZ LE HAC QUAND MÊME ! 🩵💙", duration: 3000 }
+      { text: "😂 ALORS ÇA A CRU AU RETOUR DE LA PIOCHE AU HAC ??? 😂", duration: 3500 },
+      { text: "💙🩵 POGBA EN NORMANDIE C'ÉTAIT TROP BEAU HEIN ? 🩵💙", duration: 3200 },
+      { text: "🕺 RICKROLLED ! N'OUBLIE PAS DE RESPIRER ! 🕺", duration: 3000 }
     ];
 
     let currentIdx = 0;
