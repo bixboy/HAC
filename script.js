@@ -32,16 +32,26 @@ document.addEventListener('DOMContentLoaded', () => {
   let prankStarted = false;
   let audioMuted = false;
   let memeAudio = null;
+  let rotsAudio = null;
+  let rotsPlayCount = 0;
+  const MAX_ROTS_PLAYS = 2; // Joue 1 à 2 fois au lancement comme demandé
   let audioCtx = null;
   let gainNode = null;
 
-  // Pré-chargement de l'audio hérisson
+  // Pré-chargement des fichiers audios
   try {
     memeAudio = new Audio('herisson-meme-song.mp3');
     memeAudio.loop = true;
     memeAudio.volume = 1.0;
   } catch (e) {
     console.warn('Audio preload error', e);
+  }
+
+  try {
+    rotsAudio = new Audio('Rots.mp3');
+    rotsAudio.volume = 1.0;
+  } catch (e) {
+    console.warn('Rots audio preload error', e);
   }
 
   // Séquence de déclenchement avec chargement de 3 secondes
@@ -93,14 +103,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Dénouement du Prank : Lancement du Hérisson Meme Song + Rickroll
+  // Dénouement du Prank : Lancement du Hérisson Meme Song + Rickroll + Rots.mp3
   function launchRickroll() {
     // 1. Masquer le loader et afficher le Rickroll
     if (officialLoader) officialLoader.classList.add('hidden');
     if (rickrollPlayer) rickrollPlayer.classList.remove('hidden');
 
-    // 2. Lecture du sons Hérisson avec volume boosté (un minimum fort !)
+    // 2. Lecture du son Hérisson en boucle avec volume boosté
     playHerissonMemeSong();
+
+    // 2b. Lecture simultanée de Rots.mp3 (joué 1 à 2 fois au début)
+    playRotsSound();
 
     // 3. Démarrer les paroles de karaoké synchronisées
     startKaraokeLyrics();
@@ -154,6 +167,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Lecture du son Rots.mp3 en simultané (1 ou 2 fois seulement)
+  function playRotsSound() {
+    try {
+      if (!rotsAudio) {
+        rotsAudio = new Audio('Rots.mp3');
+      }
+      rotsAudio.volume = 1.0;
+      rotsPlayCount = 0;
+
+      // Quand le son se termine, on le relance une 2ème fois, puis c'est fini !
+      rotsAudio.onended = () => {
+        rotsPlayCount++;
+        if (rotsPlayCount < MAX_ROTS_PLAYS) {
+          setTimeout(() => {
+            if (rotsAudio && !audioMuted) {
+              rotsAudio.currentTime = 0;
+              rotsAudio.play().catch(() => {});
+            }
+          }, 300);
+        }
+      };
+
+      rotsAudio.currentTime = 0;
+      rotsAudio.play().catch(err => {
+        console.warn('Lecture Rots.mp3 bloquée ou erreur:', err);
+      });
+    } catch (err) {
+      console.warn('Erreur sonore Rots:', err);
+    }
+  }
+
   if (startBtn) {
     startBtn.addEventListener('click', triggerPrankSequence);
   }
@@ -167,6 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
       audioMuted = !audioMuted;
       if (memeAudio) {
         memeAudio.muted = audioMuted;
+      }
+      if (rotsAudio) {
+        rotsAudio.muted = audioMuted;
       }
       if (audioMuted) {
         audioIcon.textContent = '🔇';
