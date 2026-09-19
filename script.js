@@ -45,30 +45,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Séquence de déclenchement avec chargement de 3 secondes
+  let loaderInterval = null;
   function triggerPrankSequence() {
     if (prankStarted) return;
     prankStarted = true;
 
-    // A. Demande de plein écran automatique pour un choc immersif
-    try {
-      if (videoModule) {
-        if (videoModule.requestFullscreen) {
-          videoModule.requestFullscreen().catch(() => {});
-        } else if (videoModule.webkitRequestFullscreen) {
-          videoModule.webkitRequestFullscreen();
-        }
-      }
-    } catch (e) {}
-
-    // B. Masquer le lecteur initial et afficher l'écran de chargement
+    // A. Masquer le lecteur initial et afficher l'écran de chargement
     fakePlayer.classList.add('hidden');
     if (officialLoader) officialLoader.classList.remove('hidden');
 
-    // C. Progression du chargement calibrée exactement sur 3 SECONDES (3000ms)
+    // B. Progression du chargement calibrée exactement sur 3 SECONDES (3000ms)
     const totalDuration = 3000;
     const startTime = Date.now();
 
-    const loaderInterval = setInterval(() => {
+    loaderInterval = setInterval(() => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(100, Math.floor((elapsed / totalDuration) * 100));
 
@@ -90,9 +80,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (progress >= 100) {
         clearInterval(loaderInterval);
-        setTimeout(launchRickroll, 200);
+        setTimeout(launchRickroll, 150);
       }
-    }, 40);
+    }, 35);
+  }
+
+  // Clic sur le loader pour accélérer / passer directement si souhaité
+  if (officialLoader) {
+    officialLoader.addEventListener('click', () => {
+      if (loaderInterval) clearInterval(loaderInterval);
+      launchRickroll();
+    });
   }
 
   // Dénouement du Prank : Lancement du Hérisson Meme Song + Rickroll
@@ -214,68 +212,244 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ------------------------------------------------------------------------
-  // Moteur de Confettis Ciel & Marine
+  // Moteur de Confettis Massif "Partout sur l'Écran & la Vidéo"
   // ------------------------------------------------------------------------
+  let confettiEngineActive = false;
+
   function fireHACConfetti() {
-    const canvas = document.getElementById('confetti-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    if (confettiEngineActive) return;
+    confettiEngineActive = true;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const canvasMain = document.getElementById('confetti-canvas');
+    const canvasPlayer = document.getElementById('player-confetti-canvas');
+    const canvases = [canvasMain, canvasPlayer].filter(c => c !== null);
 
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
+    if (canvases.length === 0) return;
 
-    const colors = ['#5a98cb', '#74c4fb', '#0a152e', '#ffffff', '#c0946a'];
-    const particles = [];
-    const count = 130;
-
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * -canvas.height,
-        size: Math.random() * 8 + 5,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        speedY: Math.random() * 5 + 3,
-        speedX: Math.random() * 4 - 2,
-        rotation: Math.random() * 360,
-        rotSpeed: Math.random() * 8 - 4,
-        opacity: 1
-      });
+    function resizeAll() {
+      if (canvasMain) {
+        canvasMain.width = window.innerWidth;
+        canvasMain.height = window.innerHeight;
+      }
+      if (canvasPlayer && canvasPlayer.parentElement) {
+        canvasPlayer.width = canvasPlayer.parentElement.clientWidth || 800;
+        canvasPlayer.height = canvasPlayer.parentElement.clientHeight || 450;
+      }
     }
 
-    let elapsed = 0;
+    resizeAll();
+    window.addEventListener('resize', resizeAll);
+
+    // Couleurs officielles Le Havre AC Ciel & Marine + Or + Palette festive
+    const colors = [
+      '#5a98cb', '#74c4fb', '#38bdf8', '#00b4d8', // Bleu Ciel HAC
+      '#0a152e', '#1e3a8a', '#1d4ed8',           // Bleu Marine HAC
+      '#ffd700', '#f59e0b', '#fbbf24', '#facc15', // Or Champion
+      '#ffffff',                                   // Blanc
+      '#ff2a6d', '#ec4899', '#f43f5e',           // Rose Fête
+      '#10b981', '#059669',                       // Vert
+      '#8b5cf6', '#a855f7'                        // Violet
+    ];
+
+    const shapes = ['rect', 'rect', 'circle', 'star', 'streamer'];
+
+    function createParticle(canvas, x, y, vx, vy, isRespawn = false) {
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+      return {
+        x: x !== undefined ? x : Math.random() * canvas.width,
+        y: y !== undefined ? y : Math.random() * (canvas.height * 0.85),
+        vx: vx !== undefined ? vx : (Math.random() * 5 - 2.5),
+        vy: vy !== undefined ? vy : (Math.random() * 4 + 2),
+        size: Math.random() * 11 + 6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        gravity: 0.28 + Math.random() * 0.16,
+        drag: isRespawn ? 0.995 : 0.975,
+        wobble: Math.random() * Math.PI * 2,
+        wobbleSpeed: Math.random() * 0.12 + 0.05,
+        rotation: Math.random() * 360,
+        rotSpeed: Math.random() * 12 - 6,
+        shape: shape,
+        opacity: 1
+      };
+    }
+
+    // Initialisation des systèmes de particules
+    const systems = canvases.map(canvas => {
+      const particles = [];
+      const isMain = canvas === canvasMain;
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // 1. Inondation immédiate de tout l'écran (particules dès la première seconde !)
+      const initialCount = isMain ? 320 : 120;
+      for (let i = 0; i < initialCount; i++) {
+        particles.push(createParticle(canvas, Math.random() * w, Math.random() * (h * 0.85)));
+      }
+
+      // 2. Canon Bas-Gauche (Tire vers le haut-droite à travers tout l'écran)
+      const leftCannonCount = isMain ? 180 : 50;
+      for (let i = 0; i < leftCannonCount; i++) {
+        const angle = (-50 - Math.random() * 30) * Math.PI / 180;
+        const speed = Math.random() * 16 + 14;
+        particles.push(createParticle(
+          canvas,
+          0,
+          h * 0.9,
+          Math.cos(angle) * speed,
+          Math.sin(angle) * speed
+        ));
+      }
+
+      // 3. Canon Bas-Droite (Tire vers le haut-gauche à travers tout l'écran)
+      const rightCannonCount = isMain ? 180 : 50;
+      for (let i = 0; i < rightCannonCount; i++) {
+        const angle = (-130 + Math.random() * 30) * Math.PI / 180;
+        const speed = Math.random() * 16 + 14;
+        particles.push(createParticle(
+          canvas,
+          w,
+          h * 0.9,
+          Math.cos(angle) * speed,
+          Math.sin(angle) * speed
+        ));
+      }
+
+      // 4. Explosion Radiale Centrale (depuis le cœur de la vidéo)
+      const centerCount = isMain ? 140 : 40;
+      for (let i = 0; i < centerCount; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 15 + 6;
+        particles.push(createParticle(
+          canvas,
+          w * 0.5,
+          h * 0.5,
+          Math.cos(angle) * speed,
+          Math.sin(angle) * speed
+        ));
+      }
+
+      return {
+        canvas,
+        ctx: canvas.getContext('2d'),
+        particles
+      };
+    });
+
+    // Dessin d'une étoile à 5 branches
+    function drawStar(ctx, r) {
+      ctx.beginPath();
+      for (let i = 0; i < 5; i++) {
+        ctx.lineTo(Math.cos((18 + i * 72) * Math.PI / 180) * r, -Math.sin((18 + i * 72) * Math.PI / 180) * r);
+        ctx.lineTo(Math.cos((54 + i * 72) * Math.PI / 180) * (r * 0.5), -Math.sin((54 + i * 72) * Math.PI / 180) * (r * 0.5));
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // Salves périodiques de canons pour relancer l'explosion en continu
+    let salvoToggle = false;
+    setInterval(() => {
+      const mainSys = systems.find(s => s.canvas === canvasMain);
+      if (!mainSys) return;
+
+      const w = mainSys.canvas.width;
+      const h = mainSys.canvas.height;
+      const count = 70;
+
+      salvoToggle = !salvoToggle;
+      const startX = salvoToggle ? 0 : w;
+      const baseAngle = salvoToggle ? -60 : -120;
+
+      for (let i = 0; i < count; i++) {
+        const angle = (baseAngle + (Math.random() * 40 - 20)) * Math.PI / 180;
+        const speed = Math.random() * 18 + 12;
+        mainSys.particles.push(createParticle(
+          mainSys.canvas,
+          startX,
+          h * 0.88,
+          Math.cos(angle) * speed,
+          Math.sin(angle) * speed
+        ));
+      }
+    }, 2400);
+
+    // Salve interactive au clic n'importe où sur la page
+    window.addEventListener('click', (e) => {
+      const mainSys = systems.find(s => s.canvas === canvasMain);
+      if (!mainSys) return;
+      const count = 45;
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 14 + 5;
+        mainSys.particles.push(createParticle(
+          mainSys.canvas,
+          e.clientX,
+          e.clientY,
+          Math.cos(angle) * speed,
+          Math.sin(angle) * speed
+        ));
+      }
+    });
+
+    // Boucle d'animation principale (60 FPS ultra fluide)
     function render() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      elapsed++;
+      systems.forEach(sys => {
+        const { canvas, ctx, particles } = sys;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      particles.forEach((p) => {
-        p.y += p.speedY;
-        p.x += p.speedX;
-        p.rotation += p.rotSpeed;
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.vx *= p.drag;
+          p.vy *= p.drag;
+          p.rotation += p.rotSpeed;
+          p.wobble += p.wobbleSpeed;
 
-        if (p.y > canvas.height) {
-          p.y = -10;
-          p.x = Math.random() * canvas.width;
+          // Recyclage continu : Dès qu'un confetti sort par le bas, il retombe du haut !
+          if (p.y > canvas.height + 25) {
+            p.y = -15 - Math.random() * 25;
+            p.x = Math.random() * canvas.width;
+            p.vy = Math.random() * 4 + 2.5;
+            p.vx = Math.random() * 4 - 2;
+            p.drag = 0.995;
+          }
+
+          ctx.save();
+          // Effet de vent horizontal naturel (wobble)
+          ctx.translate(p.x + Math.sin(p.wobble) * 2.5, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.opacity;
+
+          if (p.shape === 'rect') {
+            // Effet 3D de ruban qui tourne sur lui-même
+            const w = p.size;
+            const h = p.size * 0.6 * Math.abs(Math.cos(p.wobble));
+            ctx.fillRect(-w / 2, -h / 2, w, h);
+          } else if (p.shape === 'circle') {
+            ctx.beginPath();
+            ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (p.shape === 'star') {
+            drawStar(ctx, p.size * 0.6);
+          } else if (p.shape === 'streamer') {
+            const len = p.size * 2.2;
+            const w = p.size * 0.45;
+            ctx.fillRect(-w / 2, -len / 2, w, len * Math.abs(Math.sin(p.wobble)));
+          }
+
+          ctx.restore();
         }
 
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate((p.rotation * Math.PI) / 180);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = p.opacity;
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
-        ctx.restore();
+        // Limiter le nombre max de particules pour maintenir 60 FPS
+        if (particles.length > 900) {
+          particles.splice(0, particles.length - 850);
+        }
       });
 
-      if (elapsed < 350) {
-        requestAnimationFrame(render);
-      } else {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
+      requestAnimationFrame(render);
     }
 
     render();

@@ -46,7 +46,8 @@ body.hac-official-body {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 99999;
+  z-index: 999999;
+  display: block;
 }
 
 /* --------------------------------------------------------------------------
@@ -559,6 +560,16 @@ body.hac-official-body {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.player-confetti-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 30;
 }
 
 .karaoke-badge {
