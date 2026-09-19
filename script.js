@@ -33,8 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let audioMuted = false;
   let memeAudio = null;
   let rotsAudio = null;
-  let rotsPlayCount = 0;
-  const MAX_ROTS_PLAYS = 2; // Joue 1 à 2 fois au lancement comme demandé
   let audioCtx = null;
   let rotsSource = null;
   let rotsGain = null;
@@ -193,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Lecture de Rots.mp3 (très fort, 1 ou 2 fois seulement)
+  // Lecture de Rots.mp3 (très fort, joué exactement 1 seule fois)
   function playRotsSound() {
     try {
       if (!rotsAudio) {
@@ -202,20 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
       initAudioNodes();
 
       rotsAudio.volume = 1.0;
-      rotsPlayCount = 0;
-
-      // Quand le son se termine, on le relance une 2ème fois (2 fois max), puis il s'arrête
-      rotsAudio.onended = () => {
-        rotsPlayCount++;
-        if (rotsPlayCount < MAX_ROTS_PLAYS) {
-          setTimeout(() => {
-            if (rotsAudio && !audioMuted) {
-              rotsAudio.currentTime = 0;
-              rotsAudio.play().catch(() => {});
-            }
-          }, 250);
-        }
-      };
+      rotsAudio.loop = false;
+      rotsAudio.onended = null; // Ne se répète pas : joue strictement 1 seule fois
 
       rotsAudio.currentTime = 0;
       rotsAudio.play().catch(err => {
