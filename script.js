@@ -16,22 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const friendName = urlParams.get('nom') || urlParams.get('name') || '';
   const authorName = urlParams.get('de') || urlParams.get('from') || 'Pierre';
 
-  const authorElement = document.getElementById('prank-author');
-  if (authorElement && authorName) {
-    authorElement.textContent = authorName;
-  }
-
-  // 3. Bouton WhatsApp avec message pré-rempli hilarant
-  const whatsappBtn = document.getElementById('whatsapp-btn');
-  if (whatsappBtn) {
-    let waText = `J'ai cliqué sur l'article du site officiel du Havre AC ${authorName}... J'ai trop le seum, tu m'as bien eue avec le Rickroll ! 😂😭`;
-    if (friendName) {
-      waText = `C'est ${friendName} ! J'ai vu l'article du HAC que tu m'as envoyé... T'es un grand malade ${authorName}, j'ai trop le seum 😂😭`;
-    }
-    whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(waText)}`;
-  }
-
-  // 4. Déclenchement du Prank au clic sur le bouton Play
+  // 2. Déclenchement du Prank au clic sur le bouton Play
   const startBtn = document.getElementById('start-rickroll-btn');
   const fakePlayer = document.getElementById('official-fake-player');
   const rickrollPlayer = document.getElementById('official-rickroll-player');
@@ -92,23 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. Bouton copier le lien du piège
-  const shareBtn = document.getElementById('share-link-btn');
-  if (shareBtn) {
-    shareBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        const originalText = shareBtn.textContent;
-        shareBtn.textContent = '✅ Lien copié ! Envoie-le sur WhatsApp';
-        shareBtn.style.backgroundColor = 'var(--hac-blue-dark)';
-        setTimeout(() => {
-          shareBtn.textContent = originalText;
-          shareBtn.style.backgroundColor = '';
-        }, 3000);
-      }).catch(() => {
-        alert('Lien : ' + window.location.href);
-      });
-    });
-  }
+
 
   // ------------------------------------------------------------------------
   // Animation des paroles Karaoké du Rickroll
