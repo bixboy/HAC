@@ -25,16 +25,56 @@ document.addEventListener('DOMContentLoaded', () => {
   const audioIcon = document.getElementById('audio-icon');
   const audioLabel = document.getElementById('audio-label');
 
+  const officialLoader = document.getElementById('official-loader');
+  const loaderProgressFill = document.getElementById('loader-progress-fill');
+  const loaderStatusText = document.getElementById('loader-status-text');
+  const videoModule = document.getElementById('video-module');
+
   let prankStarted = false;
   let audioMuted = false;
   let synthAudioController = null;
 
-  function launchRickroll() {
+  function triggerPrankSequence() {
     if (prankStarted) return;
     prankStarted = true;
 
-    // A. Masquer le faux lecteur et afficher le Rickroll
+    // 1. Demande de plein écran automatique pour un choc immersif total
+    try {
+      if (videoModule) {
+        if (videoModule.requestFullscreen) {
+          videoModule.requestFullscreen().catch(() => {});
+        } else if (videoModule.webkitRequestFullscreen) {
+          videoModule.webkitRequestFullscreen();
+        }
+      }
+    } catch (e) {}
+
+    // 2. Masquer le player initial et afficher le suspense loader
     fakePlayer.classList.add('hidden');
+    if (officialLoader) officialLoader.classList.remove('hidden');
+
+    // 3. Animation du chargement réaliste (1,4 seconde de faux suspense)
+    let percent = 20;
+    const progressInterval = setInterval(() => {
+      percent += Math.floor(Math.random() * 22) + 14;
+      if (percent >= 100) {
+        percent = 100;
+        clearInterval(progressInterval);
+        if (loaderProgressFill) loaderProgressFill.style.width = '100%';
+        if (loaderStatusText) loaderStatusText.textContent = 'Connexion satellite réussie • Lancement du direct...';
+        
+        // BOOM : Lancement du Rickroll à 100%
+        setTimeout(launchRickroll, 250);
+      } else {
+        if (loaderProgressFill) loaderProgressFill.style.width = `${percent}%`;
+        if (loaderStatusText) loaderStatusText.textContent = `Établissement du flux HD 1080p (${percent}%)...`;
+      }
+    }, 180);
+  }
+
+  function launchRickroll() {
+    // A. Masquer le loader et afficher le Rickroll
+    if (officialLoader) officialLoader.classList.add('hidden');
     rickrollPlayer.classList.remove('hidden');
 
     // B. Lancer la musique synthétisée 80s "Never Gonna Give You Up"
@@ -53,10 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (startBtn) {
-    startBtn.addEventListener('click', launchRickroll);
+    startBtn.addEventListener('click', triggerPrankSequence);
   }
   if (fakePlayer) {
-    fakePlayer.addEventListener('click', launchRickroll);
+    fakePlayer.addEventListener('click', triggerPrankSequence);
   }
 
   // Contrôle Audio (Couper / Remettre le son)
