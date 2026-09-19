@@ -1,28 +1,27 @@
 /* ==========================================================================
-   HAC MÉDIA - MERCATO EXCLUSIF STYLES
-   Couleurs : Ciel & Marine (Bleu Ciel #5cc6f6, Bleu Marine #081b33)
+   HAC.FOOTBALL - DESIGN OFFICIEL (REPLICA EXACTE)
+   Couleurs officielles : 
+   - #0a152e (Bleu Marine Foncé / Fond Header & Footer)
+   - #254162 (Bleu Marine Médium)
+   - #5a98cb / #74c4fb (Bleu Ciel)
+   - #c0946a / #d0af8f (Or / Terre Battue / Doyen)
+   - #f4f4f4 (Gris Clair / Fond du contenu des articles)
    ========================================================================== */
 
 :root {
-  --ciel: #5cc6f6;
-  --ciel-glow: rgba(92, 198, 246, 0.4);
-  --marine: #081b33;
-  --marine-dark: #040d1a;
-  --marine-card: #0c2340;
-  --marine-border: rgba(92, 198, 246, 0.2);
-  --gold: #facc15;
-  --gold-glow: rgba(250, 204, 21, 0.4);
-  --text-main: #f1f5f9;
-  --text-muted: #94a3b8;
-  --red-live: #ef4444;
+  --hac-blue-darker: #0a152e;
+  --hac-blue-dark: #254162;
+  --hac-blue-med: #3f6d97;
+  --hac-blue-light: #5a98cb;
+  --hac-blue-lighter: #74c4fb;
+  --hac-gold: #c0946a;
+  --hac-gold-light: #d0af8f;
+  --hac-bg-content: #f4f4f4;
+  --hac-text-dark: #0a152e;
+  --hac-text-muted: #5a6578;
   --whatsapp-green: #25d366;
-  --font-display: 'Bebas Neue', Impact, sans-serif;
-  --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  --radius-lg: 16px;
-  --radius-md: 10px;
-  --radius-sm: 6px;
-  --transition-fast: 0.2s ease;
-  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --font-heading: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 *, *::before, *::after {
@@ -31,17 +30,12 @@
   padding: 0;
 }
 
-body {
-  font-family: var(--font-body);
-  background-color: var(--marine-dark);
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(12, 35, 64, 0.9) 0%, transparent 75%),
-    radial-gradient(circle at 100% 20%, rgba(92, 198, 246, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 0% 50%, rgba(92, 198, 246, 0.05) 0%, transparent 40%);
-  color: var(--text-main);
+body.hac-official-body {
+  font-family: var(--font-sans);
+  background-color: var(--hac-bg-content);
+  color: var(--hac-text-dark);
   line-height: 1.6;
   overflow-x: hidden;
-  min-height: 100vh;
 }
 
 /* Canvas Confettis */
@@ -52,615 +46,608 @@ body {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 9999;
-}
-
-.container {
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
+  z-index: 99999;
 }
 
 /* --------------------------------------------------------------------------
-   HEADER & NAVBAR
+   HEADER OFFICIEL (hac.football)
    -------------------------------------------------------------------------- */
-.hac-header {
-  background: var(--marine);
-  border-bottom: 2px solid var(--marine-border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  position: sticky;
+.official-header {
+  position: fixed;
   top: 0;
-  z-index: 100;
-  backdrop-filter: blur(10px);
+  left: 0;
+  width: 100%;
+  background-color: var(--hac-blue-darker);
+  color: #ffffff;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.header-top-bar {
-  background: #020812;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  padding: 6px 0;
-  font-size: 0.8rem;
-}
-
-.header-top-content {
+.header-main-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
+  padding: 0.65rem 1.5rem;
+  max-width: 1550px;
+  margin: 0 auto;
 }
 
-.live-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
-  font-weight: 700;
-  padding: 2px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  letter-spacing: 0.5px;
-}
-
-.live-dot, .blink-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--red-live);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--red-live);
-  animation: pulse-dot 1.2s infinite ease-in-out;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.75); }
-}
-
-.live-info {
-  color: var(--text-muted);
-}
-
-.date-tag {
-  color: var(--ciel);
-  font-weight: 600;
-}
-
-.nav-main {
+.header-left {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.85rem 1.25rem;
+  gap: 1.5rem;
+  width: 40%;
 }
 
-.logo-group {
+.burger-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 14px;
+  padding: 6px;
+  border-radius: 4px;
+  transition: opacity 0.2s;
 }
 
-.hac-crest {
-  filter: drop-shadow(0 0 10px var(--ciel-glow));
-  transition: transform var(--transition-smooth);
+.burger-btn:hover {
+  opacity: 0.8;
 }
 
-.hac-crest:hover {
-  transform: scale(1.06) rotate(-2deg);
+.icon-size {
+  width: 28px;
+  height: 28px;
 }
 
-.brand-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.brand-title {
-  font-family: var(--font-display);
-  font-size: 2.1rem;
-  letter-spacing: 1.5px;
-  line-height: 1;
-  background: linear-gradient(135deg, #ffffff 40%, var(--ciel) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.brand-sub {
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--ciel);
-  margin-top: 2px;
-}
-
-.nav-links {
+.header-quick-nav {
   display: flex;
   gap: 1.25rem;
 }
 
-.nav-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.92rem;
-  font-weight: 600;
-  transition: color var(--transition-fast);
-  position: relative;
-}
-
-.nav-link:hover, .nav-link.active {
-  color: var(--ciel);
-}
-
-.nav-link.active::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--ciel);
-  box-shadow: 0 0 8px var(--ciel);
-}
-
-/* --------------------------------------------------------------------------
-   MAIN CONTENT & ARTICLE
-   -------------------------------------------------------------------------- */
-.main-content {
-  padding-top: 1.75rem;
-  padding-bottom: 4rem;
-}
-
-.breadcrumbs {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  margin-bottom: 1.2rem;
-}
-
-.breadcrumbs a {
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-.breadcrumbs a:hover {
-  color: var(--ciel);
-}
-
-.breadcrumbs span {
-  margin: 0 6px;
-  opacity: 0.6;
-}
-
-.breadcrumbs .current {
-  color: var(--ciel);
-  font-weight: 600;
-}
-
-/* Breaking Banner */
-.breaking-banner {
-  background: linear-gradient(90deg, rgba(239, 68, 68, 0.2) 0%, rgba(8, 27, 51, 0.8) 100%);
-  border-left: 4px solid var(--red-live);
-  border-radius: var(--radius-sm);
-  padding: 0.65rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 1.75rem;
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);
-}
-
-.breaking-badge {
-  background: var(--red-live);
-  color: #fff;
-  font-weight: 800;
-  font-size: 0.72rem;
-  letter-spacing: 1px;
-  padding: 3px 8px;
-  border-radius: 4px;
-}
-
-.breaking-text {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #fca5a5;
-}
-
-/* Article Styles */
-.article-meta-tags {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 1rem;
-  font-size: 0.82rem;
-}
-
-.category-tag {
-  background: linear-gradient(135deg, var(--ciel), #0284c7);
-  color: #041427;
-  font-weight: 800;
-  padding: 3px 10px;
-  border-radius: 999px;
-  letter-spacing: 0.5px;
-}
-
-.time-tag, .views-tag {
-  color: var(--text-muted);
-}
-
-.article-title {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.2rem);
-  letter-spacing: 1px;
-  line-height: 1.15;
+.quick-nav-link {
   color: #ffffff;
-  margin-bottom: 1rem;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
 }
 
-.article-chapo {
-  font-size: 1.1rem;
-  color: #cbd5e1;
-  line-height: 1.65;
-  margin-bottom: 1.8rem;
-  border-left: 3px solid var(--ciel);
-  padding-left: 1rem;
+.quick-nav-link:hover {
+  color: var(--hac-blue-lighter);
 }
 
-/* --------------------------------------------------------------------------
-   FAUX LECTEUR VIDÉO INTERACTIF
-   -------------------------------------------------------------------------- */
-.video-player-wrapper {
-  position: relative;
-  width: 100%;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: #000;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 25px var(--marine-border);
-  border: 1px solid var(--marine-border);
-  margin-bottom: 2.5rem;
+.link-highlight {
+  color: var(--hac-blue-lighter);
 }
 
-.fake-player-state {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  width: 100%;
+.header-center {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+}
+
+.official-logo-link {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.official-logo-link:hover {
+  transform: scale(1.05);
+}
+
+.hac-official-logo {
+  height: 52px;
+  width: auto;
+  display: block;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  width: 40%;
+}
+
+.header-action-icon {
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  text-decoration: none;
+}
+
+.header-action-icon:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.lang-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.icon-caret {
+  width: 18px;
+  height: 18px;
+  color: #94a3b8;
+}
+
+/* Fil d'Ariane */
+.header-breadcrumb {
+  background-color: rgba(4, 11, 24, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.35rem 1.5rem;
+  font-size: 0.75rem;
+}
+
+.breadcrumb-container {
+  max-width: 1550px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.breadcrumb-link {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  color: #64748b;
+}
+
+.breadcrumb-current {
+  color: #ffffff;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   HERO BANNER (#big-slider hac.football)
+   -------------------------------------------------------------------------- */
+.hero-slider {
+  position: relative;
+  height: 75vh;
+  min-height: 520px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 95px; /* Compense la hauteur du header fixe */
+}
+
+.hero-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--hac-blue-darker) 0%, rgba(10, 21, 46, 0.6) 50%, rgba(10, 21, 46, 0.2) 100%);
+  z-index: 10;
+}
+
+.hero-text-container {
+  position: relative;
+  z-index: 20;
+  max-width: 1100px;
+  width: 100%;
+  padding: 0 1.5rem 3.5rem;
+  color: #ffffff;
+}
+
+.hero-kicker {
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--hac-blue-lighter);
+  margin-bottom: 0.75rem;
+}
+
+.hero-headline {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 4.8rem);
+  line-height: 0.92;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* --------------------------------------------------------------------------
+   CORPS DE L'ARTICLE (#f4f4f4 officiel)
+   -------------------------------------------------------------------------- */
+.article-body-wrapper {
+  background-color: var(--hac-bg-content);
+  padding: 2.5rem 1rem 5rem;
+}
+
+.article-inner-container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Barre de partage social */
+.article-social-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 2px solid var(--hac-blue-darker);
+  border-bottom: 2px solid var(--hac-blue-darker);
+  padding: 0.75rem 0;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+  color: var(--hac-text-muted);
+}
+
+.social-actions-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.share-label {
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--hac-blue-darker);
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.social-share-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: transform 0.2s, background-color 0.2s;
+  text-decoration: none;
+}
+
+.social-share-icon:hover {
+  transform: translateY(-2px);
+  background-color: rgba(10, 21, 46, 0.08);
+}
+
+.social-svg-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.article-meta-info {
+  font-weight: 600;
+  display: flex;
+  gap: 6px;
+}
+
+/* Paragraphes de l'article */
+.article-paragraphs {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: #1e293b;
+  margin-bottom: 2.5rem;
+}
+
+.article-paragraphs p {
+  margin-bottom: 1.25rem;
+}
+
+.article-lead {
+  font-size: 1.28rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--hac-blue-darker);
+}
+
+.article-notice {
+  font-weight: 700;
+  color: var(--hac-blue-dark);
+}
+
+/* --------------------------------------------------------------------------
+   LECTEUR VIDÉO OFFICIEL (HAC TV)
+   -------------------------------------------------------------------------- */
+.hac-video-module {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #000000;
+  box-shadow: 0 15px 35px rgba(10, 21, 46, 0.25);
+  margin-bottom: 3rem;
+  border: 2px solid var(--hac-blue-darker);
+}
+
+.official-player-box {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
   cursor: pointer;
   overflow: hidden;
 }
 
-.player-thumbnail {
+.official-thumb {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  transition: transform 0.5s ease;
 }
 
-.fake-player-state:hover .player-thumbnail {
+.official-player-box:hover .official-thumb {
   transform: scale(1.03);
-  filter: brightness(0.85);
 }
 
-.player-overlay {
+.player-controls-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(4, 13, 26, 0.7) 0%,
-    rgba(4, 13, 26, 0.2) 40%,
-    rgba(4, 13, 26, 0.3) 60%,
-    rgba(4, 13, 26, 0.85) 100%
-  );
+  background: linear-gradient(to bottom, rgba(10, 21, 46, 0.6) 0%, rgba(10, 21, 46, 0.2) 50%, rgba(10, 21, 46, 0.85) 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 1.25rem;
+  color: #ffffff;
 }
 
-.player-top-bar {
+.player-tag-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
-.player-live-badge {
-  background: rgba(239, 68, 68, 0.85);
+.hac-tv-badge {
+  background: var(--hac-blue-darker);
+  border: 1px solid var(--hac-blue-light);
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.live-status-pill {
+  background: rgba(239, 68, 68, 0.9);
   color: white;
   font-weight: 800;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
+  font-size: 0.72rem;
   padding: 4px 10px;
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  backdrop-filter: blur(4px);
 }
 
-.player-quality-badge {
-  background: rgba(0, 0, 0, 0.6);
-  color: var(--ciel);
-  border: 1px solid var(--ciel-glow);
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 4px;
+.pulse-red {
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+  animation: pulse-ring 1.2s infinite;
 }
 
-/* Bouton Play Central Stylisé */
-.big-play-btn {
+@keyframes pulse-ring {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Bouton Play HAC TV */
+.official-play-trigger {
   align-self: center;
-  background: transparent;
+  background: none;
   border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  position: relative;
-  transition: transform var(--transition-smooth);
+  transition: transform 0.2s ease;
 }
 
-.big-play-btn:hover {
+.official-play-trigger:hover {
   transform: scale(1.08);
 }
 
-.play-pulse {
-  position: absolute;
-  top: 15px;
-  width: 90px;
-  height: 90px;
-  background: var(--ciel);
+.play-btn-circle {
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
-  opacity: 0.35;
-  animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-  pointer-events: none;
-}
-
-@keyframes pulse-ring {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  100% { transform: scale(1.8); opacity: 0; }
-}
-
-.play-icon-circle {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ffffff 0%, var(--ciel) 100%);
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 30px var(--ciel-glow), 0 8px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.7), 0 8px 20px rgba(0, 0, 0, 0.4);
   margin-bottom: 12px;
-  padding-left: 4px;
-  transition: box-shadow var(--transition-fast);
+  padding-left: 5px;
 }
 
-.big-play-btn:hover .play-icon-circle {
-  box-shadow: 0 0 45px var(--ciel), 0 10px 30px rgba(0, 0, 0, 0.7);
-}
-
-.play-btn-text {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  letter-spacing: 1.5px;
+.trigger-label {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  letter-spacing: 1px;
   color: #ffffff;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
-.play-btn-sub {
-  font-size: 0.8rem;
-  color: var(--ciel);
+.trigger-sub {
+  font-size: 0.82rem;
+  color: var(--hac-blue-lighter);
   font-weight: 600;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
 }
 
-/* Faux contrôles vidéo en bas */
-.fake-progress-bar {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 2px;
-  margin-bottom: 8px;
-  overflow: hidden;
-}
-
-.fake-progress-fill {
-  width: 0%;
-  height: 100%;
-  background: var(--ciel);
-}
-
-.controls-meta {
+.player-statusbar {
   display: flex;
   justify-content: space-between;
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: #cbd5e1;
   font-weight: 600;
 }
 
 /* --------------------------------------------------------------------------
-   ÉTAT RICKROLL (APRÈS CLIC)
+   RICKROLL OFFICIEL (DÉCLENCHÉ AU CLIC)
    -------------------------------------------------------------------------- */
 .hidden {
   display: none !important;
 }
 
-.rickroll-state {
-  position: relative;
-  background: #020617;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  animation: explode-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.official-rickroll-box {
+  background-color: var(--hac-blue-darker);
+  animation: pop-in 0.4s ease-out;
 }
 
-@keyframes explode-in {
-  0% { transform: scale(0.92); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
-.troll-watermark {
-  background: linear-gradient(90deg, #dc2626, #ef4444, #f59e0b, #38bdf8, #dc2626);
-  background-size: 400% 400%;
-  animation: rainbow-shift 3s ease infinite;
-  color: white;
+.rickroll-troll-ribbon {
+  background: linear-gradient(90deg, #dc2626, #f59e0b, #38bdf8, #dc2626);
+  background-size: 300% 300%;
+  animation: ribbon-anim 3s infinite linear;
+  color: #ffffff;
+  padding: 8px 12px;
   text-align: center;
-  padding: 8px;
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  letter-spacing: 2px;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  letter-spacing: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-@keyframes rainbow-shift {
+@keyframes ribbon-anim {
   0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
-/* Boîte visuelle Rickroll optimisée avec GIF HD */
-.rickroll-visual-box {
+.rickroll-screen {
   position: relative;
   aspect-ratio: 16 / 9;
   width: 100%;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  background-color: #000;
 }
 
-.rickroll-gif {
+.rickroll-media {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-/* Barre de Karaoké Troll */
-.karaoke-bar {
+.karaoke-badge {
   position: absolute;
   bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(4, 13, 26, 0.85);
-  border: 1px solid var(--ciel);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 15px var(--ciel-glow);
+  background: rgba(10, 21, 46, 0.9);
+  border: 1px solid var(--hac-blue-lighter);
+  color: #ffffff;
   padding: 8px 18px;
   border-radius: 999px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  max-width: 90%;
-  backdrop-filter: blur(8px);
-}
-
-.music-icon {
-  font-size: 1.2rem;
-  animation: bounce-icon 0.8s infinite alternate;
-}
-
-@keyframes bounce-icon {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-4px) scale(1.15); }
-}
-
-.lyrics-line {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
+  gap: 8px;
   font-weight: 700;
-  color: #fff;
+  font-size: 0.92rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  max-width: 90%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Bouton contrôle audio */
-.audio-control-pill {
+.karaoke-icon {
+  font-size: 1.2rem;
+}
+
+.sound-toggle-btn {
   position: absolute;
   top: 14px;
   right: 14px;
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid var(--marine-border);
-  color: var(--ciel);
-  padding: 6px 12px;
+  background: rgba(10, 21, 46, 0.85);
+  border: 1px solid var(--hac-blue-light);
+  color: var(--hac-blue-lighter);
+  padding: 6px 14px;
   border-radius: 999px;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all var(--transition-fast);
-  backdrop-filter: blur(4px);
 }
 
-.audio-control-pill:hover {
-  background: var(--marine-card);
-  border-color: var(--ciel);
-  transform: scale(1.05);
-}
-
-.rickroll-banner {
-  background: var(--marine);
+.rickroll-foot-message {
   padding: 1.25rem;
   text-align: center;
-  border-top: 2px solid var(--ciel);
+  background-color: var(--hac-blue-darker);
+  color: #ffffff;
+  border-top: 2px solid var(--hac-blue-light);
 }
 
-.rickroll-headline {
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  color: var(--gold);
+.rickroll-foot-message h3 {
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  color: var(--hac-gold-light);
   letter-spacing: 1px;
-  margin-bottom: 4px;
 }
 
-.rickroll-sub {
-  color: var(--text-main);
-  font-size: 1rem;
-  font-weight: 500;
+.rickroll-foot-message p {
+  color: #cbd5e1;
+  font-size: 0.95rem;
 }
 
 /* --------------------------------------------------------------------------
-   SECTION RÉVÉLATION & DIPLÔME DE TROLL
+   DIPLÔME DE SUPPORTER PIÉGÉ
    -------------------------------------------------------------------------- */
-.troll-reveal-section {
-  margin-bottom: 3rem;
-  animation: slide-up 0.5s ease-out;
+.supporter-troll-diploma {
+  margin-top: 2rem;
+  animation: slide-up 0.5s ease;
 }
 
 @keyframes slide-up {
-  0% { opacity: 0; transform: translateY(30px); }
+  0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-.troll-card {
-  background: linear-gradient(135deg, var(--marine-card) 0%, #051427 100%);
-  border: 2px solid var(--ciel);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 30px var(--ciel-glow);
+.diploma-card {
+  background: linear-gradient(135deg, var(--hac-blue-darker) 0%, #132448 100%);
+  border: 2px solid var(--hac-gold);
+  border-radius: 12px;
+  padding: 2.25rem 1.75rem;
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(10, 21, 46, 0.3);
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
 
-.troll-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(92, 198, 246, 0.08) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-.troll-card-header {
+.diploma-header {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -668,262 +655,245 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.troll-icon {
-  font-size: 3rem;
-  filter: drop-shadow(0 0 12px var(--gold));
+.diploma-crest img {
+  filter: drop-shadow(0 0 8px rgba(192, 148, 106, 0.6));
 }
 
-.troll-card-header h3 {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  letter-spacing: 1.5px;
-  color: var(--gold);
+.diploma-header h2 {
+  font-family: var(--font-heading);
+  font-size: 2.1rem;
+  color: var(--hac-gold-light);
+  letter-spacing: 1px;
   line-height: 1;
 }
 
-.troll-card-header p {
-  color: var(--text-muted);
+.diploma-header p {
+  color: #cbd5e1;
   font-size: 0.95rem;
 }
 
-.troll-card-header strong {
-  color: var(--ciel);
+.diploma-header strong {
+  color: var(--hac-blue-lighter);
 }
 
-.troll-quote {
+.diploma-catchphrase {
   font-size: 1.2rem;
   font-weight: 600;
+  margin-bottom: 1.8rem;
   color: #ffffff;
-  margin-bottom: 2rem;
   font-style: italic;
 }
 
-/* Boîtes de statistiques marrantes */
-.troll-stats {
+.diploma-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin-bottom: 2rem;
 }
 
-.stat-box {
-  background: rgba(4, 13, 26, 0.6);
-  border: 1px solid var(--marine-border);
-  border-radius: var(--radius-md);
-  padding: 1.25rem 0.75rem;
+.stat-card {
+  background: rgba(4, 11, 24, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1.2rem 0.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
-.stat-box:hover {
-  transform: translateY(-4px);
-  border-color: var(--ciel);
-}
-
-.stat-number {
-  font-family: var(--font-display);
+.stat-big {
+  font-family: var(--font-heading);
   font-size: 2.8rem;
-  color: var(--ciel);
+  color: var(--hac-blue-lighter);
   line-height: 1;
   margin-bottom: 4px;
 }
 
-.stat-label {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-weight: 500;
+.stat-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
 }
 
-/* Boutons d'actions */
-.troll-actions {
+.diploma-button-group {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
 }
 
-.btn {
+.btn-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 1rem;
-  padding: 0.9rem 1.6rem;
+  padding: 0.85rem 1.6rem;
   border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
   text-decoration: none;
   cursor: pointer;
-  transition: all var(--transition-smooth);
+  transition: transform 0.2s, box-shadow 0.2s;
   border: none;
 }
 
-.btn-whatsapp {
-  background: var(--whatsapp-green);
-  color: white;
-  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+.btn-wa {
+  background-color: var(--whatsapp-green);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
 }
 
-.btn-whatsapp:hover {
-  background: #20ba5a;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+.btn-wa:hover {
+  background-color: #20ba5a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
 }
 
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-main);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.btn-copy {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: var(--ciel);
+.btn-copy:hover {
+  background-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
 
 /* --------------------------------------------------------------------------
-   SECTION COMMENTAIRES SUPPORTERS (FAUSSE)
+   FOOTER OFFICIEL (hac.football)
    -------------------------------------------------------------------------- */
-.comments-section {
-  background: var(--marine-card);
-  border: 1px solid var(--marine-border);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+.official-footer {
+  background-color: var(--hac-blue-darker);
+  color: #ffffff;
+  border-top: 3px solid var(--hac-gold);
+  padding: 3.5rem 1.5rem 2rem;
 }
 
-.comments-title {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  letter-spacing: 1px;
-  color: var(--ciel);
-  margin-bottom: 1.25rem;
-  border-bottom: 1px solid var(--marine-border);
-  padding-bottom: 0.75rem;
-}
-
-.comment-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.comment-item {
-  display: flex;
-  gap: 14px;
-}
-
-.comment-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--marine);
-  border: 2px solid var(--ciel);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  color: var(--ciel);
-  font-size: 0.85rem;
-  flex-shrink: 0;
-}
-
-.comment-content {
-  background: rgba(4, 13, 26, 0.5);
-  border-radius: var(--radius-md);
-  padding: 0.85rem 1.1rem;
-  flex-grow: 1;
-}
-
-.troll-comment .comment-content {
-  border: 1px solid rgba(250, 204, 21, 0.3);
-  background: rgba(250, 204, 21, 0.05);
-}
-
-.comment-author {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: #fff;
-  margin-bottom: 4px;
-}
-
-.comment-date {
-  font-weight: 400;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.comment-content p {
-  font-size: 0.92rem;
-  color: #cbd5e1;
-}
-
-/* --------------------------------------------------------------------------
-   FOOTER
-   -------------------------------------------------------------------------- */
-.hac-footer {
-  background: #02060f;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 2.5rem 0;
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
   text-align: center;
-  font-size: 0.85rem;
-  color: var(--text-muted);
 }
 
-.footer-sub {
-  margin-top: 6px;
-  color: var(--ciel);
-  font-weight: 500;
+.footer-crest-wrapper {
+  margin-bottom: 2.5rem;
+}
+
+.footer-hac-crest {
+  width: 65px;
+  height: auto;
+  margin-bottom: 0.75rem;
+}
+
+.footer-motto {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  color: var(--hac-gold-light);
+}
+
+.footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  text-align: left;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+
+.footer-col h4 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  color: var(--hac-blue-lighter);
+  margin-bottom: 0.75rem;
+}
+
+.footer-col a {
+  display: block;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.footer-social-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.footer-social-link {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.footer-social-link:hover {
+  transform: translateY(-3px);
+}
+
+.footer-social-img {
+  width: 28px;
+  height: 28px;
+}
+
+.footer-legal {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
+  font-size: 0.8rem;
+  color: #64748b;
 }
 
 /* --------------------------------------------------------------------------
-   RESPONSIVE MEDIA QUERIES
+   RESPONSIVE
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-  .nav-links {
+  .header-quick-nav {
     display: none;
   }
-  
-  .header-top-content {
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .brand-title {
-    font-size: 1.6rem;
-  }
-  
-  .article-title {
-    font-size: 1.85rem;
+
+  .header-left, .header-right {
+    width: auto;
   }
 
-  .play-icon-circle {
-    width: 65px;
-    height: 65px;
-  }
-  
-  .play-btn-text {
-    font-size: 1.25rem;
+  .header-center {
+    width: auto;
   }
 
-  .troll-card {
-    padding: 1.25rem;
+  .hero-slider {
+    height: 60vh;
+    min-height: 420px;
+    margin-top: 85px;
   }
 
-  .troll-card-header {
+  .hero-headline {
+    font-size: 2.4rem;
+  }
+
+  .article-social-bar {
     flex-direction: column;
-    text-align: center;
-    gap: 8px;
+    align-items: flex-start;
+    gap: 10px;
   }
 
-  .troll-stats {
+  .diploma-stats-grid {
     grid-template-columns: 1fr;
   }
 
-  .btn {
+  .footer-links-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .btn-action {
     width: 100%;
   }
 }

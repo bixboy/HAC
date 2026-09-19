@@ -1,14 +1,14 @@
 /* ==========================================================================
-   HAC MÉDIA - MERCATO PRANK ENGINE
+   HAC.FOOTBALL - MOTEUR DU PRANK OFFICIEL
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Mise à jour de la date dynamique en français
-  const dateElement = document.getElementById('current-date');
-  if (dateElement) {
-    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  // 1. Mise à jour du bandeau de date officiel (ex: SAM. 19 SEPTEMBRE 2026)
+  const dateKicker = document.getElementById('current-date-kicker');
+  if (dateKicker) {
+    const options = { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' };
     const today = new Date().toLocaleDateString('fr-FR', options);
-    dateElement.textContent = today.charAt(0).toUpperCase() + today.slice(1);
+    dateKicker.textContent = today.toUpperCase();
   }
 
   // 2. Gestion des paramètres d'URL (?nom=Sarah&de=Pierre)
@@ -24,18 +24,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. Bouton WhatsApp avec message pré-rempli hilarant
   const whatsappBtn = document.getElementById('whatsapp-btn');
   if (whatsappBtn) {
-    let waText = `J'ai cliqué sur ton faux mercato du Havre AC ${authorName}... J'ai trop le seum, tu m'as bien eue avec le Rickroll ! 😂😭`;
+    let waText = `J'ai cliqué sur l'article du site officiel du Havre AC ${authorName}... J'ai trop le seum, tu m'as bien eue avec le Rickroll ! 😂😭`;
     if (friendName) {
-      waText = `C'est ${friendName} ! J'ai cliqué sur ton lien du HAC... T'es un grand malade ${authorName}, j'ai trop le seum 😂😭`;
+      waText = `C'est ${friendName} ! J'ai vu l'article du HAC que tu m'as envoyé... T'es un grand malade ${authorName}, j'ai trop le seum 😂😭`;
     }
     whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(waText)}`;
   }
 
-  // 4. Déclenchement du Prank au clic sur le bouton "Play"
-  const startBtn = document.getElementById('start-prank-btn');
-  const fakePlayer = document.getElementById('fake-player');
-  const rickrollPlayer = document.getElementById('rickroll-player');
-  const trollReveal = document.getElementById('troll-reveal');
+  // 4. Déclenchement du Prank au clic sur le bouton Play
+  const startBtn = document.getElementById('start-rickroll-btn');
+  const fakePlayer = document.getElementById('official-fake-player');
+  const rickrollPlayer = document.getElementById('official-rickroll-player');
+  const trollDiploma = document.getElementById('troll-diploma-section');
   const lyricsDisplay = document.getElementById('lyrics-display');
   const audioToggleBtn = document.getElementById('audio-toggle-btn');
   const audioIcon = document.getElementById('audio-icon');
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // A. Masquer le faux lecteur et afficher le Rickroll
     fakePlayer.classList.add('hidden');
     rickrollPlayer.classList.remove('hidden');
-    trollReveal.classList.remove('hidden');
+    trollDiploma.classList.remove('hidden');
 
     // B. Lancer la musique synthétisée 80s "Never Gonna Give You Up"
     synthAudioController = startRickrollSynthMusic();
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // C. Démarrer les paroles de karaoké synchronisées
     startKaraokeLyrics();
 
-    // D. Explosion de confettis aux couleurs Ciel et Marine
+    // D. Explosion de confettis aux couleurs officielles Ciel & Marine
     fireHACConfetti();
 
     // E. Cadrage fluide de l'écran
@@ -88,25 +88,23 @@ document.addEventListener('DOMContentLoaded', () => {
         audioToggleBtn.style.opacity = '0.6';
       } else {
         audioIcon.textContent = '🔊';
-        audioLabel.textContent = 'Musique active';
+        audioLabel.textContent = 'Son actif';
         audioToggleBtn.style.opacity = '1';
       }
     });
   }
 
-  // 5. Bouton copier le lien pour piéger d'autres personnes
+  // 5. Bouton copier le lien du piège
   const shareBtn = document.getElementById('share-link-btn');
   if (shareBtn) {
     shareBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(window.location.href).then(() => {
         const originalText = shareBtn.textContent;
         shareBtn.textContent = '✅ Lien copié ! Envoie-le sur WhatsApp';
-        shareBtn.style.background = 'rgba(92, 198, 246, 0.3)';
-        shareBtn.style.borderColor = '#5cc6f6';
+        shareBtn.style.backgroundColor = 'var(--hac-blue-dark)';
         setTimeout(() => {
           shareBtn.textContent = originalText;
-          shareBtn.style.background = '';
-          shareBtn.style.borderColor = '';
+          shareBtn.style.backgroundColor = '';
         }, 3000);
       }).catch(() => {
         alert('Lien : ' + window.location.href);
@@ -127,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { text: "🎵 Never gonna make you cry...", duration: 2400 },
       { text: "🎵 Never gonna say goodbye...", duration: 2400 },
       { text: "🎵 Never gonna tell a lie and hurt you...", duration: 3200 },
-      { text: "😂 ALORS LE HAVRE AC RECRUTE ENCORE DU LOURD ? 😂", duration: 3500 },
+      { text: "😂 ALORS LE HAVRE AC RECRUTE DU TRÈS TRÈS LOURD HEIN ? 😂", duration: 3500 },
       { text: "💙🩵 ALLEZ LE HAC QUAND MÊME ! 🩵💙", duration: 3000 }
     ];
 
@@ -163,15 +161,12 @@ document.addEventListener('DOMContentLoaded', () => {
       let isMuted = false;
       let isPlaying = true;
 
-      // Table des fréquences (Notes réelles de Never Gonna Give You Up)
+      // Table des fréquences réelles de Never Gonna Give You Up
       const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, Fs4 = 369.99,
             G4 = 392.00, A4 = 440.00, B4 = 493.88, C5 = 523.25, D5 = 587.33,
             E5 = 659.25;
 
-      const G2 = 98.00, A2 = 110.00, B2 = 123.47, C3 = 130.81, D3 = 146.83, E3 = 164.81;
-
-      // Séquence Mélodie (Refrain légendaire)
-      // [freq, durationInBeats]
+      // Séquence Mélodie (Refrain mythique)
       const melody = [
         // "Never gonna give you up"
         [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [B4, 0.6], [B4, 0.6], [A4, 1.2],
@@ -187,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [G4, 0.6], [A4, 0.6], [Fs4, 0.5], [E4, 0.5], [D4, 0.6], [D4, 0.4], [D4, 0.4], [A4, 0.6], [G4, 1.4]
       ];
 
-      const beatDuration = 0.32; // ~114 BPM
+      const beatDuration = 0.32;
 
       function schedulePattern(startAt) {
         if (!isPlaying) return;
@@ -196,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         melody.forEach(([freq, beats]) => {
           const noteDuration = beats * beatDuration;
           
-          // Synth Lead (sawtooth avec filtre pour son 80s)
+          // Lead Synth
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           const filter = ctx.createBiquadFilter();
@@ -217,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
           osc.start(time);
           osc.stop(time + noteDuration);
 
-          // Ligne de basse 80s (Square wave punchy)
+          // Ligne de Basse punchy
           const bassOsc = ctx.createOscillator();
           const bassGain = ctx.createGain();
           bassOsc.type = 'square';
@@ -235,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
           time += noteDuration;
         });
 
-        // Relancer la boucle en continu
         const totalDuration = time - startAt;
         setTimeout(() => {
           if (isPlaying) {
@@ -264,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ------------------------------------------------------------------------
-  // Moteur de Confettis Ciel & Marine (Canvas pur, ultra fluide)
+  // Moteur de Confettis Ciel & Marine
   // ------------------------------------------------------------------------
   function fireHACConfetti() {
     const canvas = document.getElementById('confetti-canvas');
@@ -279,15 +273,15 @@ document.addEventListener('DOMContentLoaded', () => {
       canvas.height = window.innerHeight;
     });
 
-    const colors = ['#5cc6f6', '#38bdf8', '#081b33', '#ffffff', '#facc15'];
+    const colors = ['#5a98cb', '#74c4fb', '#0a152e', '#ffffff', '#c0946a'];
     const particles = [];
-    const count = 120;
+    const count = 130;
 
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * -canvas.height,
-        size: Math.random() * 9 + 5,
+        size: Math.random() * 8 + 5,
         color: colors[Math.floor(Math.random() * colors.length)],
         speedY: Math.random() * 5 + 3,
         speedX: Math.random() * 4 - 2,

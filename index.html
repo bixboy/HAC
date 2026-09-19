@@ -2,249 +2,324 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🚨 MERCATO HAC : Signature surprise d'un crack mondial au Havre !</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=contain">
+  <meta name="theme-color" content="#0a152e">
+  <title>MERCATO : Signature surprise d'un crack mondial au Havre AC ! | Havre Athletic Club</title>
   
-  <!-- Métadonnées OpenGraph pour un aperçu réaliste sur WhatsApp / Twitter / iMessage -->
-  <meta property="og:title" content="🚨 MERCATO HAC : Signature surprise d'un crack mondial au Havre AC !">
-  <meta property="og:description" content="Conférence de presse en direct : le Havre Athletic Club officialise une recrue majeure pour la saison !">
+  <!-- OpenGraph pour un aperçu officiel ultra crédible dans WhatsApp / SMS / Instagram -->
+  <meta property="og:title" content="MERCATO : Signature surprise d'un crack mondial au Havre AC ! | Havre Athletic Club">
+  <meta property="og:description" content="Le site officiel du Havre Athletic Club, plus ancien club de football français fondé en 1872. Retrouvez toute l'actualité du HAC, les transferts, les vidéos exclusives et les déclarations officielles.">
   <meta property="og:type" content="article">
+  <meta property="og:url" content="https://hac.football/fr/posts/mercato-signature-surprise-attaquant">
   <meta property="og:image" content="assets/hac_mercato_thumb.jpg">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@HAC_Foot">
   
+  <!-- Polices officielles (Condensed sports font & modern sans) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="icon" type="image/svg+xml" href="https://hac.football/assets/images/logo-clubs/hac.svg">
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
 </head>
-<body>
+<body class="hac-official-body">
 
   <!-- Canvas pour les confettis Ciel & Marine -->
   <canvas id="confetti-canvas"></canvas>
 
-  <!-- En-tête officiel HAC Média -->
-  <header class="hac-header">
-    <div class="header-top-bar">
-      <div class="container header-top-content">
-        <span class="live-pill"><span class="live-dot"></span> DIRECT STADE OCÉANE</span>
-        <span class="live-info">Ligue 1 McDonald's • Suivi du Mercato en temps réel</span>
-        <span class="date-tag" id="current-date">Aujourd'hui</span>
+  <!-- En-tête officiel hac.football -->
+  <header id="site-header" class="official-header">
+    <div class="header-main-row">
+      <!-- Côté Gauche : Menu Burger + Liens rapides -->
+      <div class="header-left">
+        <button class="burger-btn" aria-label="Ouvrir le menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-size">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+        
+        <nav class="header-quick-nav">
+          <a href="#" class="quick-nav-link">Ligue 1 McDonald's</a>
+          <a href="#" class="quick-nav-link link-highlight">Billetterie</a>
+          <a href="#" class="quick-nav-link link-highlight">Boutique</a>
+        </nav>
       </div>
-    </div>
-    
-    <div class="container nav-main">
-      <div class="logo-group">
-        <!-- Blason vectoriel HAC stylisé Ciel & Marine -->
-        <div class="hac-crest">
-          <svg viewBox="0 0 100 120" width="48" height="58" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 5 L92 20 V65 C92 95 50 115 50 115 C50 115 8 95 8 65 V20 L50 5 Z" fill="#081b33" stroke="#5cc6f6" stroke-width="4"/>
-            <path d="M50 5 L8 20 V65 C8 95 50 115 50 115 V5 Z" fill="#5cc6f6"/>
-            <text x="50" y="58" font-family="'Bebas Neue', sans-serif" font-size="28" fill="#ffffff" text-anchor="middle" font-weight="bold">HAC</text>
-            <text x="50" y="80" font-family="'Outfit', sans-serif" font-size="13" fill="#facc15" text-anchor="middle" font-weight="800">1872</text>
+
+      <!-- Centre : Logo officiel Havre Athletic Club (SVG officiel du HAC) -->
+      <div class="header-center">
+        <a href="#" class="official-logo-link" title="Havre Athletic Club">
+          <img src="https://hac.football/assets/images/logo-clubs/hac.svg" alt="Havre Athletic Club" class="hac-official-logo">
+        </a>
+      </div>
+
+      <!-- Côté Droit : Compte, Recherche, Langue -->
+      <div class="header-right">
+        <!-- Icône Compte -->
+        <a href="#" class="header-action-icon" aria-label="Mon compte">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-size">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </a>
+
+        <!-- Icône Recherche -->
+        <a href="#" class="header-action-icon" aria-label="Rechercher">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-size">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          </svg>
+        </a>
+
+        <!-- Sélecteur de Langue -->
+        <div class="lang-selector">
+          <span class="lang-code">FR</span>
+          <svg viewBox="0 0 20 20" fill="currentColor" class="icon-caret">
+            <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
           </svg>
         </div>
-        <div class="brand-text">
-          <span class="brand-title">HAC MÉDIA</span>
-          <span class="brand-sub">LE HAVRE ATHLETIC CLUB • SITE OFFICIEL DES SUPPORTERS</span>
-        </div>
       </div>
-
-      <nav class="nav-links">
-        <a href="#" class="nav-link active">Mercato</a>
-        <a href="#" class="nav-link">Équipe Pro</a>
-        <a href="#" class="nav-link">Stade Océane</a>
-        <a href="#" class="nav-link">Billetterie</a>
-      </nav>
     </div>
+
+    <!-- Fil d'Ariane officiel -->
+    <nav class="header-breadcrumb" aria-label="breadcrumb">
+      <div class="breadcrumb-container">
+        <a href="#" class="breadcrumb-link">Accueil</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="#" class="breadcrumb-link">Actualités</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">MERCATO : Signature surprise d'un crack mondial au Havre AC !</span>
+      </div>
+    </nav>
   </header>
 
-  <!-- Fil d'Ariane & Titre de l'article -->
-  <main class="container main-content">
-    <div class="breadcrumbs">
-      <a href="#">Accueil</a> <span>›</span> 
-      <a href="#">Football</a> <span>›</span> 
-      <a href="#">Ligue 1</a> <span>›</span> 
-      <span class="current">Mercato HAC</span>
-    </div>
-
-    <!-- Bannière Urgente -->
-    <div class="breaking-banner">
-      <span class="breaking-badge">FLASH INFO</span>
-      <p class="breaking-text">Accord historique conclu ce matin : la direction du Havre AC officialise son nouveau numéro 9 !</p>
-    </div>
-
-    <article class="news-article">
-      <div class="article-meta-tags">
-        <span class="category-tag">EXCLUSIVITÉ MERCATO</span>
-        <span class="time-tag">⏱️ Mis à jour à l'instant</span>
-        <span class="views-tag">👁️ 18 420 supporters en ligne</span>
+  <!-- Grand Hero Header officiel (#big-slider de hac.football) -->
+  <main id="main">
+    <div id="big-slider" class="hero-slider" style="background-image: url('assets/hac_mercato_thumb.jpg');">
+      <div class="hero-gradient-overlay"></div>
+      
+      <div class="hero-text-container">
+        <div class="hero-kicker" id="current-date-kicker">
+          SAM. 19 SEPTEMBRE 2026
+        </div>
+        <h1 class="hero-headline">
+          MERCATO : Le Havre AC boucle l'arrivée surprise d'un crack mondial !
+        </h1>
       </div>
+    </div>
 
-      <h1 class="article-title">
-        🚨 OFFICIEL : Coup de tonnerre au Havre, un attaquant international signe au Stade Océane !
-      </h1>
-
-      <p class="article-chapo">
-        Personne ne l'avait vu venir. Après de longues négociations menées dans le plus grand secret, le HAC vient d'annoncer la signature d'un renfort de classe mondiale. Découvrez immédiatement les premières images exclusives de la conférence de presse et ses déclarations en direct.
-      </p>
-
-      <!-- Lecteur Vidéo Interactif (LE PIÈGE) -->
-      <div class="video-player-wrapper" id="video-wrapper">
+    <!-- Corps de l'article sur fond gris clair officiel (#f4f4f4) -->
+    <div class="article-body-wrapper">
+      <div class="article-inner-container">
         
-        <!-- Écran 1 : La Fausse Vidéo Mercato -->
-        <div class="fake-player-state" id="fake-player">
-          <img src="assets/hac_mercato_thumb.jpg" alt="Conférence de presse HAC" class="player-thumbnail">
-          
-          <div class="player-overlay">
-            <div class="player-top-bar">
-              <span class="player-live-badge"><span class="blink-dot"></span> EN DIRECT</span>
-              <span class="player-quality-badge">HD 1080p</span>
-            </div>
-
-            <!-- Bouton Play Central -->
-            <button class="big-play-btn" id="start-prank-btn" aria-label="Lancer la vidéo de la conférence de presse">
-              <div class="play-pulse"></div>
-              <div class="play-icon-circle">
-                <svg viewBox="0 0 24 24" width="36" height="36" fill="#081b33">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              </div>
-              <span class="play-btn-text">▶ LANCER LE DIRECT VIDÉO</span>
-              <span class="play-btn-sub">Conférence de presse & Présentation du maillot (02:14)</span>
-            </button>
-
-            <div class="player-bottom-controls">
-              <div class="fake-progress-bar"><div class="fake-progress-fill"></div></div>
-              <div class="controls-meta">
-                <span>00:00 / 02:14</span>
-                <span>HAC TV EXCLUSIVITÉ</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Écran 2 : Le Rickroll en Plein Écran (Se déclenche au clic) -->
-        <div class="rickroll-state hidden" id="rickroll-player">
-          <div class="troll-watermark">
-            <span class="troll-emoji">🕺</span>
-            <span>ALERTE RICKROLL • T'AS CRU AU MERCATO DU HAC ?</span>
-            <span class="troll-emoji">🕺</span>
-          </div>
-
-          <!-- Affichage du Rickroll animé haute fidélité -->
-          <div class="rickroll-visual-box">
-            <img src="assets/rickroll.gif" alt="Rick Astley Dancing" class="rickroll-gif">
+        <!-- Barre de partage social officielle (hac.football) -->
+        <div class="article-social-bar">
+          <div class="social-actions-left">
+            <span class="share-label">Partager :</span>
             
-            <!-- Karaoke Trolling Bar -->
-            <div class="karaoke-bar">
-              <span class="music-icon">🎵</span>
-              <span class="lyrics-line" id="lyrics-display">Never gonna give you up, never gonna let you down...</span>
-            </div>
+            <a href="#" class="social-share-icon" title="Partager sur WhatsApp">
+              <img src="https://hac.football/assets/images/socials/blue/whatsapp.svg" alt="WhatsApp" class="social-svg-icon" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%230a152e\'><path d=\'M12 2C6.48 2 2 6.48 2 12c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38C8.75 21.41 10.38 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z\'/></svg>'">
+            </a>
+            
+            <a href="#" class="social-share-icon" title="Partager sur Facebook">
+              <img src="https://hac.football/assets/images/socials/blue/facebook.svg" alt="Facebook" class="social-svg-icon" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%230a152e\'><path d=\'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z\'/></svg>'">
+            </a>
 
-            <!-- Audio Controller / Volume -->
-            <div class="audio-control-pill" id="audio-toggle-btn">
-              <span id="audio-icon">🔊</span>
-              <span id="audio-label">Musique active</span>
-            </div>
+            <a href="#" class="social-share-icon" title="Partager sur X">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="#0a152e">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
           </div>
 
-          <div class="rickroll-banner">
-            <h2 class="rickroll-headline">🎉 BIEN JOUÉ, TU VIENS DE TE FAIRE RICKROLL ! 🎉</h2>
-            <p class="rickroll-sub">T'as vraiment cru que le Havre AC allait recruter une superstar internationale ce week-end ? 😂</p>
+          <div class="article-meta-info">
+            <span>Par Rédaction HAC</span>
+            <span>•</span>
+            <span>Il y a 10 minutes</span>
           </div>
         </div>
 
-      </div>
+        <!-- Texte de l'article officiel HAC -->
+        <div class="article-paragraphs">
+          <p class="article-lead">
+            C'est un véritable coup de maître que vient de réaliser la direction du Havre Athletic Club en ce samedi matin. Alors que la saison bat son plein au Stade Océane, le plus ancien club de football français (fondé en 1872) a conclu un accord historique pour le transfert d'un joueur d'envergure internationale.
+          </p>
 
-      <!-- Zone de Chambrage Dévoilée après le clic -->
-      <section class="troll-reveal-section hidden" id="troll-reveal">
-        <div class="troll-card">
-          <div class="troll-card-header">
-            <span class="troll-icon">🏆</span>
-            <div>
-              <h3>DIPLÔME OFFICIEL DU SUPPORTER PIÉGÉ</h3>
-              <p>Délivré avec toute l'amitié de <strong id="prank-author">Pierre</strong></p>
+          <p>
+            Les négociations, menées dans la plus stricte confidentialité depuis plusieurs semaines par l'état-major ciel et marine, ont abouti à un contrat de trois saisons. Présent au centre d'entraînement pour satisfaire à la traditionnelle visite médicale, le nouvel arrivant a déjà pu poser avec le maillot ciel et marine et adresser ses premiers mots aux supporters havrais.
+          </p>
+
+          <p class="article-notice">
+            Retrouvez ci-dessous l'intégralité de la conférence de presse retransmise par <strong>HAC TV</strong> :
+          </p>
+        </div>
+
+        <!-- MODULE VIDÉO OFFICIEL HAC TV (LE PIÈGE RICKROLL) -->
+        <div class="hac-video-module" id="video-module">
+          
+          <!-- Écran de départ (Faux player HAC TV) -->
+          <div class="official-player-box" id="official-fake-player">
+            <img src="assets/hac_mercato_thumb.jpg" alt="Conférence de presse HAC" class="official-thumb">
+            
+            <div class="player-controls-overlay">
+              <div class="player-tag-row">
+                <span class="hac-tv-badge">HAC TV DIRECT</span>
+                <span class="live-status-pill"><span class="pulse-red"></span> EN DIRECT DU STADE OCÉANE</span>
+              </div>
+
+              <!-- Gros bouton Play Officiel HAC -->
+              <button class="official-play-trigger" id="start-rickroll-btn" aria-label="Lancer la vidéo de la conférence de presse">
+                <div class="play-halo"></div>
+                <div class="play-btn-circle">
+                  <svg viewBox="0 0 24 24" width="36" height="36" fill="#0a152e">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </div>
+                <span class="trigger-label">Lancer la vidéo de présentation</span>
+                <span class="trigger-sub">Conférence de presse officielle (02:14)</span>
+              </button>
+
+              <div class="player-statusbar">
+                <span>00:00 / 02:14</span>
+                <span>Qualité : 1080p HD</span>
+              </div>
             </div>
           </div>
 
-          <div class="troll-body">
-            <p class="troll-quote">
-              "Le Havre AC est le plus vieux club de France (1872), mais toi tu tombes dans le panneau en 2 secondes !" 😭
-            </p>
-
-            <div class="troll-stats">
-              <div class="stat-box">
-                <span class="stat-number">100%</span>
-                <span class="stat-label">Niveau d'illusion</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-number">0€</span>
-                <span class="stat-label">Budget transfert</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-number">#1</span>
-                <span class="stat-label">Victime du jour</span>
-              </div>
+          <!-- Écran Rickroll (Déclenché au clic) -->
+          <div class="official-rickroll-box hidden" id="official-rickroll-player">
+            <div class="rickroll-troll-ribbon">
+              <span>🕺 ALERTE RICKROLL 🕺</span>
+              <span>T'AS VRAIMENT CRU QUE LE HAC ALLAIT RECRUTER UN BALLON D'OR ? 😂</span>
             </div>
 
-            <div class="troll-actions">
-              <!-- Bouton direct WhatsApp vers Pierre -->
-              <a href="#" id="whatsapp-btn" class="btn btn-whatsapp" target="_blank">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 17.75c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.203 8.203 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c.01 4.54-3.69 8.23-8.22 8.23zm4.52-6.17c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.23.9 2.43 1.02 2.6.12.16 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.12-.22-.19-.46-.31z"/>
-                </svg>
-                Avouer ta défaite à Pierre sur WhatsApp
-              </a>
+            <div class="rickroll-screen">
+              <img src="assets/rickroll.gif" alt="Rick Astley - Never Gonna Give You Up" class="rickroll-media">
+              
+              <!-- Karaoké flottant -->
+              <div class="karaoke-badge">
+                <span class="karaoke-icon">🎵</span>
+                <span id="lyrics-display">Never gonna give you up, never gonna let you down...</span>
+              </div>
 
-              <!-- Bouton Copier le Lien -->
-              <button id="share-link-btn" class="btn btn-secondary">
-                📋 Copier le lien pour piéger d'autres supporters
+              <!-- Contrôle Audio -->
+              <button class="sound-toggle-btn" id="audio-toggle-btn">
+                <span id="audio-icon">🔊</span>
+                <span id="audio-label">Son actif</span>
               </button>
             </div>
+
+            <div class="rickroll-foot-message">
+              <h3>🎉 BIEN JOUÉ, TU VIENS DE TE FAIRE RICKROLL ! 🎉</h3>
+              <p>Même le Stade Océane et toute la Normandie en rigolent encore !</p>
+            </div>
           </div>
+
         </div>
-      </section>
 
-      <!-- Fausse section de commentaires sportifs pour le réalisme -->
-      <section class="comments-section">
-        <h3 class="comments-title">Commentaires des supporters (124)</h3>
+        <!-- DIPLÔME OFFICIEL DU SUPPORTER PIÉGÉ -->
+        <section class="supporter-troll-diploma hidden" id="troll-diploma-section">
+          <div class="diploma-card">
+            <div class="diploma-header">
+              <div class="diploma-crest">
+                <img src="https://hac.football/assets/images/logo-clubs/hac.svg" alt="HAC Logo" width="55" height="55">
+              </div>
+              <div>
+                <h2>CERTIFICAT OFFICIEL DU SUPPORTER PIÉGÉ</h2>
+                <p>Remis solennellement avec toute l'amitié de <strong id="prank-author">Pierre</strong></p>
+              </div>
+            </div>
 
-        <div class="comment-list">
-          <div class="comment-item">
-            <div class="comment-avatar">MH</div>
-            <div class="comment-content">
-              <div class="comment-author">Maxime_HAC76 <span class="comment-date">• il y a 10 min</span></div>
-              <p>J'Y CROIS PAS MES YEUX !!! Si c'est confirmé on va jouer l'Europe l'année prochaine direct au Stade Océane !! Allez le HAC !! 💙🩵</p>
+            <div class="diploma-content">
+              <p class="diploma-catchphrase">
+                "Le HAC est le doyen des clubs français depuis 1872... mais toi tu es tombée dans le panneau en 3 secondes !" 😭
+              </p>
+
+              <div class="diploma-stats-grid">
+                <div class="stat-card">
+                  <span class="stat-big">100%</span>
+                  <span class="stat-text">Crédulité football</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-big">0 €</span>
+                  <span class="stat-text">Budget mercato</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-big">#1</span>
+                  <span class="stat-text">Supportrice du jour</span>
+                </div>
+              </div>
+
+              <div class="diploma-button-group">
+                <!-- Bouton WhatsApp direct -->
+                <a href="#" id="whatsapp-btn" class="btn-action btn-wa" target="_blank">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 17.75c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.203 8.203 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c.01 4.54-3.69 8.23-8.22 8.23zm4.52-6.17c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.23.9 2.43 1.02 2.6.12.16 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.12-.22-.19-.46-.31z"/>
+                  </svg>
+                  Avouer ta défaite à Pierre sur WhatsApp
+                </a>
+
+                <!-- Bouton Copier le Lien -->
+                <button id="share-link-btn" class="btn-action btn-copy">
+                  📋 Copier le lien du piège
+                </button>
+              </div>
             </div>
           </div>
+        </section>
 
-          <div class="comment-item">
-            <div class="comment-avatar">CM</div>
-            <div class="comment-content">
-              <div class="comment-author">CielEtMarine_Fan <span class="comment-date">• il y a 6 min</span></div>
-              <p>Regardez bien la vidéo jusqu'au bout, les premières déclarations donnent des frissons... Enfin des dirigeants qui mettent les moyens !</p>
-            </div>
-          </div>
-
-          <div class="comment-item troll-comment">
-            <div class="comment-avatar">KL</div>
-            <div class="comment-content">
-              <div class="comment-author">Kévin_76 <span class="comment-date">• il y a 2 min</span></div>
-              <p>MDRRRR je viens de lancer la vidéo, je suis au sol 😭 Pierre t'es un grand malade j'ai failli y croire</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </article>
+      </div>
+    </div>
   </main>
 
-  <!-- Pied de page -->
-  <footer class="hac-footer">
-    <div class="container footer-content">
-      <p>© 2026 HAC Média • Site non-officiel d'humour & passion Ciel et Marine • Tous droits réservés à Rick Astley</p>
-      <p class="footer-sub">Fabriqué avec amour et chambrage pour les vrais supporters du HAC ⚽💙</p>
+  <!-- Pied de page officiel hac.football -->
+  <footer class="official-footer">
+    <div class="footer-inner">
+      <!-- Emblème officiel du HAC -->
+      <div class="footer-crest-wrapper">
+        <img src="https://hac.football/assets/images/logo-clubs/hac.svg" alt="HAC Crest" class="footer-hac-crest">
+        <p class="footer-motto">HAVRE ATHLETIC CLUB • DEPUIS 1872</p>
+      </div>
+
+      <!-- Liens du footer -->
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h4>LE CLUB</h4>
+          <a href="#">Histoire & Palmarès</a>
+          <a href="#">Organisation</a>
+          <a href="#">Stade Océane</a>
+        </div>
+        <div class="footer-col">
+          <h4>ÉQUIPES</h4>
+          <a href="#">Ligue 1 McDonald's</a>
+          <a href="#">Arkema Première Ligue</a>
+          <a href="#">Formation & Cavée</a>
+        </div>
+        <div class="footer-col">
+          <h4>SERVICES</h4>
+          <a href="#">Billetterie Officielle</a>
+          <a href="#">Boutique Ciel & Marine</a>
+          <a href="#">Partenaires Officiels</a>
+        </div>
+      </div>
+
+      <!-- Réseaux sociaux officiels du HAC -->
+      <div class="footer-social-row">
+        <a href="https://www.instagram.com/hac_foot/" target="_blank" class="footer-social-link" title="Instagram">
+          <img src="https://hac.football/assets/images/socials/blue/instagram.svg" alt="Instagram" class="footer-social-img">
+        </a>
+        <a href="https://www.facebook.com/HavreACFOOT" target="_blank" class="footer-social-link" title="Facebook">
+          <img src="https://hac.football/assets/images/socials/blue/facebook.svg" alt="Facebook" class="footer-social-img">
+        </a>
+        <a href="https://www.youtube.com/user/HavreAthleticClub" target="_blank" class="footer-social-link" title="YouTube">
+          <img src="https://hac.football/assets/images/socials/blue/youtube.svg" alt="YouTube" class="footer-social-img">
+        </a>
+        <a href="https://whatsapp.com/channel/0029Vb2GyZX1SWt61LaCBC21" target="_blank" class="footer-social-link" title="WhatsApp">
+          <img src="https://hac.football/assets/images/socials/blue/whatsapp.svg" alt="WhatsApp" class="footer-social-img">
+        </a>
+      </div>
+
+      <div class="footer-legal">
+        <p>© 2026 Havre Athletic Club • Tous droits réservés • Site officiel des supporters Ciel & Marine</p>
+      </div>
     </div>
   </footer>
 
