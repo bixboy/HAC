@@ -624,102 +624,12 @@ body.hac-official-body {
   font-size: 0.95rem;
 }
 
-/* --------------------------------------------------------------------------
-   DIPLÔME DE SUPPORTER PIÉGÉ
-   -------------------------------------------------------------------------- */
-.supporter-troll-diploma {
-  margin-top: 2rem;
-  animation: slide-up 0.5s ease;
-}
-
-@keyframes slide-up {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.diploma-card {
-  background: linear-gradient(135deg, var(--hac-blue-darker) 0%, #132448 100%);
-  border: 2px solid var(--hac-gold);
-  border-radius: 12px;
-  padding: 2.25rem 1.75rem;
-  color: #ffffff;
-  box-shadow: 0 10px 30px rgba(10, 21, 46, 0.3);
-  text-align: center;
-}
-
-.diploma-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 1.5rem;
-}
-
-.diploma-crest img {
-  filter: drop-shadow(0 0 8px rgba(192, 148, 106, 0.6));
-}
-
-.diploma-header h2 {
-  font-family: var(--font-heading);
-  font-size: 2.1rem;
-  color: var(--hac-gold-light);
-  letter-spacing: 1px;
-  line-height: 1;
-}
-
-.diploma-header p {
-  color: #cbd5e1;
-  font-size: 0.95rem;
-}
-
-.diploma-header strong {
-  color: var(--hac-blue-lighter);
-}
-
-.diploma-catchphrase {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 1.8rem;
-  color: #ffffff;
-  font-style: italic;
-}
-
-.diploma-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.stat-card {
-  background: rgba(4, 11, 24, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 1.2rem 0.5rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.stat-big {
-  font-family: var(--font-heading);
-  font-size: 2.8rem;
-  color: var(--hac-blue-lighter);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.stat-text {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #94a3b8;
-  text-transform: uppercase;
-}
-
-.diploma-button-group {
+.troll-direct-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+  margin-top: 1.25rem;
 }
 
 .btn-action {

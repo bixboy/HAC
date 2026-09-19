@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const startBtn = document.getElementById('start-rickroll-btn');
   const fakePlayer = document.getElementById('official-fake-player');
   const rickrollPlayer = document.getElementById('official-rickroll-player');
-  const trollDiploma = document.getElementById('troll-diploma-section');
   const lyricsDisplay = document.getElementById('lyrics-display');
   const audioToggleBtn = document.getElementById('audio-toggle-btn');
   const audioIcon = document.getElementById('audio-icon');
@@ -52,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // A. Masquer le faux lecteur et afficher le Rickroll
     fakePlayer.classList.add('hidden');
     rickrollPlayer.classList.remove('hidden');
-    trollDiploma.classList.remove('hidden');
 
     // B. Lancer la musique synthétisée 80s "Never Gonna Give You Up"
     synthAudioController = startRickrollSynthMusic();
