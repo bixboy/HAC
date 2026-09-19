@@ -36,7 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let rotsPlayCount = 0;
   const MAX_ROTS_PLAYS = 2; // Joue 1 à 2 fois au lancement comme demandé
   let audioCtx = null;
-  let gainNode = null;
+  let rotsSource = null;
+  let rotsGain = null;
+  let memeSource = null;
+  let memeGain = null;
 
   // Pré-chargement des fichiers audios
   try {
@@ -54,11 +57,47 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('Rots audio preload error', e);
   }
 
+  // Initialisation et déverrouillage de l'AudioContext dès le premier geste utilisateur
+  function initAudioNodes() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx && !audioCtx) {
+        audioCtx = new AudioCtx();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      // 1. Branchement de Rots.mp3 avec volume BOOSTÉ à 3.0x (bien fort !)
+      if (audioCtx && !rotsSource && rotsAudio) {
+        rotsSource = audioCtx.createMediaElementSource(rotsAudio);
+        rotsGain = audioCtx.createGain();
+        rotsGain.gain.setValueAtTime(3.0, audioCtx.currentTime);
+        rotsSource.connect(rotsGain);
+        rotsGain.connect(audioCtx.destination);
+      }
+
+      // 2. Branchement de herisson-meme-song.mp3 avec gain à 1.7x
+      if (audioCtx && !memeSource && memeAudio) {
+        memeSource = audioCtx.createMediaElementSource(memeAudio);
+        memeGain = audioCtx.createGain();
+        memeGain.gain.setValueAtTime(1.7, audioCtx.currentTime);
+        memeSource.connect(memeGain);
+        memeGain.connect(audioCtx.destination);
+      }
+    } catch (err) {
+      console.warn('Erreur init Web Audio:', err);
+    }
+  }
+
   // Séquence de déclenchement avec chargement de 3 secondes
   let loaderInterval = null;
   function triggerPrankSequence() {
     if (prankStarted) return;
     prankStarted = true;
+
+    // Déverrouiller le moteur audio dès le clic
+    initAudioNodes();
 
     // A. Masquer le lecteur initial et afficher l'écran de chargement
     fakePlayer.classList.add('hidden');
@@ -103,25 +142,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Dénouement du Prank : Lancement du Hérisson Meme Song + Rickroll + Rots.mp3
+  // Dénouement du Prank : Lancement du Rot en premier puis de la musique du hérisson
   function launchRickroll() {
     // 1. Masquer le loader et afficher le Rickroll
     if (officialLoader) officialLoader.classList.add('hidden');
     if (rickrollPlayer) rickrollPlayer.classList.remove('hidden');
 
-    // 2. Lecture du son Hérisson en boucle avec volume boosté
-    playHerissonMemeSong();
+    // 2. Assurer l'activation du Web Audio
+    initAudioNodes();
 
-    // 2b. Lecture simultanée de Rots.mp3 (joué 1 à 2 fois au début)
-    playRotsSound();
-
-    // 3. Démarrer les paroles de karaoké synchronisées
-    startKaraokeLyrics();
-
-    // 4. Explosion de confettis aux couleurs officielles Ciel & Marine
+    // 3. Explosion immédiate de confettis sur tout l'écran
     fireHACConfetti();
 
-    // 5. Cadrage fluide de l'écran
+    // 4. LE ROT COMMENCE EN PREMIER ET TRÈS FORT !
+    playRotsSound();
+
+    // 5. La musique du hérisson démarre juste après que le rot ait retenti (1,2 seconde de décalage)
+    setTimeout(() => {
+      playHerissonMemeSong();
+      startKaraokeLyrics();
+    }, 1200);
+
+    // 6. Cadrage fluide de l'écran
     setTimeout(() => {
       if (rickrollPlayer) {
         rickrollPlayer.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -129,35 +171,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 150);
   }
 
-  // Moteur Audio : Lecture et amplification du son herisson-meme-song.mp3
+  // Moteur Audio : Lecture du son herisson-meme-song.mp3
   function playHerissonMemeSong() {
     try {
       if (!memeAudio) {
         memeAudio = new Audio('herisson-meme-song.mp3');
         memeAudio.loop = true;
       }
-
-      // Initialiser Web Audio pour booster le gain (son bien fort)
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx && !audioCtx) {
-        audioCtx = new AudioCtx();
-        const source = audioCtx.createMediaElementSource(memeAudio);
-        gainNode = audioCtx.createGain();
-        // Gain boosté à 1.8x pour un volume percutant
-        gainNode.gain.setValueAtTime(1.8, audioCtx.currentTime);
-        source.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-      }
-
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      initAudioNodes();
 
       memeAudio.volume = 1.0;
       memeAudio.play().catch(err => {
         console.warn('Lecture audio bloquée ou erreur:', err);
       });
-
     } catch (err) {
       console.warn('Audio amplification fallback', err);
       if (memeAudio) {
@@ -167,16 +193,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Lecture du son Rots.mp3 en simultané (1 ou 2 fois seulement)
+  // Lecture de Rots.mp3 (très fort, 1 ou 2 fois seulement)
   function playRotsSound() {
     try {
       if (!rotsAudio) {
         rotsAudio = new Audio('Rots.mp3');
       }
+      initAudioNodes();
+
       rotsAudio.volume = 1.0;
       rotsPlayCount = 0;
 
-      // Quand le son se termine, on le relance une 2ème fois, puis c'est fini !
+      // Quand le son se termine, on le relance une 2ème fois (2 fois max), puis il s'arrête
       rotsAudio.onended = () => {
         rotsPlayCount++;
         if (rotsPlayCount < MAX_ROTS_PLAYS) {
@@ -185,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
               rotsAudio.currentTime = 0;
               rotsAudio.play().catch(() => {});
             }
-          }, 300);
+          }, 250);
         }
       };
 
