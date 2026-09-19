@@ -521,19 +521,87 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-.video-embed-container {
+/* Boîte visuelle Rickroll optimisée avec GIF HD */
+.rickroll-visual-box {
   position: relative;
   aspect-ratio: 16 / 9;
   width: 100%;
   background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.video-embed-container iframe,
-.video-embed-container img {
+.rickroll-gif {
   width: 100%;
   height: 100%;
-  border: none;
+  object-fit: cover;
   display: block;
+}
+
+/* Barre de Karaoké Troll */
+.karaoke-bar {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(4, 13, 26, 0.85);
+  border: 1px solid var(--ciel);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 15px var(--ciel-glow);
+  padding: 8px 18px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 90%;
+  backdrop-filter: blur(8px);
+}
+
+.music-icon {
+  font-size: 1.2rem;
+  animation: bounce-icon 0.8s infinite alternate;
+}
+
+@keyframes bounce-icon {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px) scale(1.15); }
+}
+
+.lyrics-line {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Bouton contrôle audio */
+.audio-control-pill {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--marine-border);
+  color: var(--ciel);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(4px);
+}
+
+.audio-control-pill:hover {
+  background: var(--marine-card);
+  border-color: var(--ciel);
+  transform: scale(1.05);
 }
 
 .rickroll-banner {

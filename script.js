@@ -3,7 +3,7 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Mise à jour de la date dynamique
+  // 1. Mise à jour de la date dynamique en français
   const dateElement = document.getElementById('current-date');
   if (dateElement) {
     const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
@@ -35,49 +35,63 @@ document.addEventListener('DOMContentLoaded', () => {
   const startBtn = document.getElementById('start-prank-btn');
   const fakePlayer = document.getElementById('fake-player');
   const rickrollPlayer = document.getElementById('rickroll-player');
-  const videoEmbedBox = document.getElementById('video-embed-box');
   const trollReveal = document.getElementById('troll-reveal');
+  const lyricsDisplay = document.getElementById('lyrics-display');
+  const audioToggleBtn = document.getElementById('audio-toggle-btn');
+  const audioIcon = document.getElementById('audio-icon');
+  const audioLabel = document.getElementById('audio-label');
 
   let prankStarted = false;
+  let audioMuted = false;
+  let synthAudioController = null;
 
   function launchRickroll() {
     if (prankStarted) return;
     prankStarted = true;
 
-    // A. Bruitage d'alerte immédiat via Web Audio API (aucun lag réseau)
-    playHypeFanfare();
-
-    // B. Masquer le faux lecteur et afficher le Rickroll
+    // A. Masquer le faux lecteur et afficher le Rickroll
     fakePlayer.classList.add('hidden');
     rickrollPlayer.classList.remove('hidden');
     trollReveal.classList.remove('hidden');
 
-    // C. Injecter l'Iframe YouTube officielle avec autoplay actif
-    // L'interaction de clic autorise l'autoplay avec le son à 100%
-    videoEmbedBox.innerHTML = `
-      <iframe 
-        src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&controls=1&rel=0&playsinline=1" 
-        title="Rick Astley - Never Gonna Give You Up" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-      </iframe>
-    `;
+    // B. Lancer la musique synthétisée 80s "Never Gonna Give You Up"
+    synthAudioController = startRickrollSynthMusic();
+
+    // C. Démarrer les paroles de karaoké synchronisées
+    startKaraokeLyrics();
 
     // D. Explosion de confettis aux couleurs Ciel et Marine
     fireHACConfetti();
 
-    // E. Faire défiler légèrement la page pour bien cadrer le Rickroll
+    // E. Cadrage fluide de l'écran
     setTimeout(() => {
       rickrollPlayer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 200);
+    }, 150);
   }
 
   if (startBtn) {
     startBtn.addEventListener('click', launchRickroll);
   }
-
   if (fakePlayer) {
     fakePlayer.addEventListener('click', launchRickroll);
+  }
+
+  // Contrôle Audio (Couper / Remettre le son)
+  if (audioToggleBtn) {
+    audioToggleBtn.addEventListener('click', () => {
+      if (!synthAudioController) return;
+      audioMuted = !audioMuted;
+      synthAudioController.setMuted(audioMuted);
+      if (audioMuted) {
+        audioIcon.textContent = '🔇';
+        audioLabel.textContent = 'Son coupé';
+        audioToggleBtn.style.opacity = '0.6';
+      } else {
+        audioIcon.textContent = '🔊';
+        audioLabel.textContent = 'Musique active';
+        audioToggleBtn.style.opacity = '1';
+      }
+    });
   }
 
   // 5. Bouton copier le lien pour piéger d'autres personnes
@@ -101,42 +115,156 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ------------------------------------------------------------------------
-  // Effet Audio Synthétisé (Fanfare 80s punchy instantanée)
+  // Animation des paroles Karaoké du Rickroll
   // ------------------------------------------------------------------------
-  function playHypeFanfare() {
+  function startKaraokeLyrics() {
+    if (!lyricsDisplay) return;
+
+    const lyricsSequence = [
+      { text: "🎵 Never gonna give you up...", duration: 2500 },
+      { text: "🎵 Never gonna let you down...", duration: 2500 },
+      { text: "🎵 Never gonna run around and desert you...", duration: 3200 },
+      { text: "🎵 Never gonna make you cry...", duration: 2400 },
+      { text: "🎵 Never gonna say goodbye...", duration: 2400 },
+      { text: "🎵 Never gonna tell a lie and hurt you...", duration: 3200 },
+      { text: "😂 ALORS LE HAVRE AC RECRUTE ENCORE DU LOURD ? 😂", duration: 3500 },
+      { text: "💙🩵 ALLEZ LE HAC QUAND MÊME ! 🩵💙", duration: 3000 }
+    ];
+
+    let currentIdx = 0;
+    function showNext() {
+      const item = lyricsSequence[currentIdx];
+      lyricsDisplay.textContent = item.text;
+      lyricsDisplay.style.opacity = '0';
+      setTimeout(() => {
+        lyricsDisplay.style.opacity = '1';
+      }, 50);
+
+      currentIdx = (currentIdx + 1) % lyricsSequence.length;
+      setTimeout(showNext, item.duration);
+    }
+
+    showNext();
+  }
+
+  // ------------------------------------------------------------------------
+  // Moteur Audio Web Audio API : Rickroll 80s Synth & Bassline
+  // ------------------------------------------------------------------------
+  function startRickrollSynthMusic() {
     try {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      const ctx = new AudioContext();
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return null;
+      const ctx = new AudioCtx();
 
-      // Fréquences des notes d'ouverture (Never Gonna Give You Up intro vibe)
-      const notes = [293.66, 329.63, 392.00, 329.63, 493.88, 440.00];
-      const durations = [0.12, 0.12, 0.15, 0.12, 0.25, 0.35];
-      let startTime = ctx.currentTime + 0.05;
+      const masterGain = ctx.createGain();
+      masterGain.gain.setValueAtTime(0.2, ctx.currentTime);
+      masterGain.connect(ctx.destination);
 
-      notes.forEach((freq, idx) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(freq, startTime);
+      let isMuted = false;
+      let isPlaying = true;
 
-        gain.gain.setValueAtTime(0.18, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + durations[idx]);
+      // Table des fréquences (Notes réelles de Never Gonna Give You Up)
+      const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, Fs4 = 369.99,
+            G4 = 392.00, A4 = 440.00, B4 = 493.88, C5 = 523.25, D5 = 587.33,
+            E5 = 659.25;
 
-        osc.connect(gain);
-        gain.connect(ctx.destination);
+      const G2 = 98.00, A2 = 110.00, B2 = 123.47, C3 = 130.81, D3 = 146.83, E3 = 164.81;
 
-        osc.start(startTime);
-        osc.stop(startTime + durations[idx]);
-        startTime += durations[idx] + 0.04;
-      });
-    } catch (e) {
-      console.log('Audio init skipped', e);
+      // Séquence Mélodie (Refrain légendaire)
+      // [freq, durationInBeats]
+      const melody = [
+        // "Never gonna give you up"
+        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [B4, 0.6], [B4, 0.6], [A4, 1.2],
+        // "Never gonna let you down"
+        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [A4, 0.6], [A4, 0.6], [G4, 0.5], [Fs4, 0.5], [E4, 1.0],
+        // "Never gonna run around and desert you"
+        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [G4, 0.6], [A4, 0.6], [Fs4, 0.5], [E4, 0.5], [D4, 0.6], [D4, 0.4], [D4, 0.4], [A4, 0.6], [G4, 1.4],
+        // "Never gonna make you cry"
+        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [B4, 0.6], [B4, 0.6], [A4, 1.2],
+        // "Never gonna say goodbye"
+        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [D5, 0.7], [B4, 0.6], [G4, 0.6], [G4, 0.5], [Fs4, 0.5], [E4, 1.0],
+        // "Never gonna tell a lie and hurt you"
+        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [G4, 0.6], [A4, 0.6], [Fs4, 0.5], [E4, 0.5], [D4, 0.6], [D4, 0.4], [D4, 0.4], [A4, 0.6], [G4, 1.4]
+      ];
+
+      const beatDuration = 0.32; // ~114 BPM
+
+      function schedulePattern(startAt) {
+        if (!isPlaying) return;
+        let time = startAt;
+
+        melody.forEach(([freq, beats]) => {
+          const noteDuration = beats * beatDuration;
+          
+          // Synth Lead (sawtooth avec filtre pour son 80s)
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          const filter = ctx.createBiquadFilter();
+
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, time);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(2400, time);
+
+          gain.gain.setValueAtTime(0.18, time);
+          gain.gain.exponentialRampToValueAtTime(0.001, time + noteDuration * 0.95);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(masterGain);
+
+          osc.start(time);
+          osc.stop(time + noteDuration);
+
+          // Ligne de basse 80s (Square wave punchy)
+          const bassOsc = ctx.createOscillator();
+          const bassGain = ctx.createGain();
+          bassOsc.type = 'square';
+          bassOsc.frequency.setValueAtTime(freq / 2, time);
+
+          bassGain.gain.setValueAtTime(0.09, time);
+          bassGain.gain.exponentialRampToValueAtTime(0.001, time + noteDuration * 0.8);
+
+          bassOsc.connect(bassGain);
+          bassGain.connect(masterGain);
+
+          bassOsc.start(time);
+          bassOsc.stop(time + noteDuration);
+
+          time += noteDuration;
+        });
+
+        // Relancer la boucle en continu
+        const totalDuration = time - startAt;
+        setTimeout(() => {
+          if (isPlaying) {
+            schedulePattern(ctx.currentTime + 0.05);
+          }
+        }, (totalDuration - 0.2) * 1000);
+      }
+
+      schedulePattern(ctx.currentTime + 0.05);
+
+      return {
+        setMuted: (muted) => {
+          isMuted = muted;
+          masterGain.gain.setValueAtTime(isMuted ? 0 : 0.2, ctx.currentTime);
+        },
+        stop: () => {
+          isPlaying = false;
+          masterGain.gain.setValueAtTime(0, ctx.currentTime);
+        }
+      };
+
+    } catch (err) {
+      console.warn('Audio Web API skipped', err);
+      return null;
     }
   }
 
   // ------------------------------------------------------------------------
-  // Moteur de Confettis Ciel & Marine (Canvas pur, zéro librairie)
+  // Moteur de Confettis Ciel & Marine (Canvas pur, ultra fluide)
   // ------------------------------------------------------------------------
   function fireHACConfetti() {
     const canvas = document.getElementById('confetti-canvas');
@@ -169,9 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    let animationFrame;
     let elapsed = 0;
-
     function render() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       elapsed++;
@@ -196,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (elapsed < 350) {
-        animationFrame = requestAnimationFrame(render);
+        requestAnimationFrame(render);
       } else {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
