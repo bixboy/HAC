@@ -1,5 +1,5 @@
 /* ==========================================================================
-   HAC.FOOTBALL - MOTEUR DU PRANK OFFICIEL
+   HAC.FOOTBALL - MOTEUR DU PRANK OFFICIEL (PAUL POGBA x HÉRISSON MEME)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const friendName = urlParams.get('nom') || urlParams.get('name') || '';
   const authorName = urlParams.get('de') || urlParams.get('from') || 'Pierre';
 
-  // 2. Déclenchement du Prank au clic sur le bouton Play
+  // 3. Éléments DOM
   const startBtn = document.getElementById('start-rickroll-btn');
   const fakePlayer = document.getElementById('official-fake-player');
   const rickrollPlayer = document.getElementById('official-rickroll-player');
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const audioToggleBtn = document.getElementById('audio-toggle-btn');
   const audioIcon = document.getElementById('audio-icon');
   const audioLabel = document.getElementById('audio-label');
-
   const officialLoader = document.getElementById('official-loader');
   const loaderProgressFill = document.getElementById('loader-progress-fill');
   const loaderStatusText = document.getElementById('loader-status-text');
@@ -32,13 +31,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let prankStarted = false;
   let audioMuted = false;
-  let synthAudioController = null;
+  let memeAudio = null;
+  let audioCtx = null;
+  let gainNode = null;
 
+  // Pré-chargement de l'audio hérisson
+  try {
+    memeAudio = new Audio('herisson-meme-song.mp3');
+    memeAudio.loop = true;
+    memeAudio.volume = 1.0;
+  } catch (e) {
+    console.warn('Audio preload error', e);
+  }
+
+  // Séquence de déclenchement avec chargement de 3 secondes
   function triggerPrankSequence() {
     if (prankStarted) return;
     prankStarted = true;
 
-    // 1. Demande de plein écran automatique pour un choc immersif total
+    // A. Demande de plein écran automatique pour un choc immersif
     try {
       if (videoModule) {
         if (videoModule.requestFullscreen) {
@@ -49,47 +60,100 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {}
 
-    // 2. Masquer le player initial et afficher le suspense loader
+    // B. Masquer le lecteur initial et afficher l'écran de chargement
     fakePlayer.classList.add('hidden');
     if (officialLoader) officialLoader.classList.remove('hidden');
 
-    // 3. Animation du chargement réaliste (1,4 seconde de faux suspense)
-    let percent = 20;
-    const progressInterval = setInterval(() => {
-      percent += Math.floor(Math.random() * 22) + 14;
-      if (percent >= 100) {
-        percent = 100;
-        clearInterval(progressInterval);
-        if (loaderProgressFill) loaderProgressFill.style.width = '100%';
-        if (loaderStatusText) loaderStatusText.textContent = 'Connexion satellite réussie • Lancement du direct...';
-        
-        // BOOM : Lancement du Rickroll à 100%
-        setTimeout(launchRickroll, 250);
-      } else {
-        if (loaderProgressFill) loaderProgressFill.style.width = `${percent}%`;
-        if (loaderStatusText) loaderStatusText.textContent = `Établissement du flux HD 1080p (${percent}%)...`;
+    // C. Progression du chargement calibrée exactement sur 3 SECONDES (3000ms)
+    const totalDuration = 3000;
+    const startTime = Date.now();
+
+    const loaderInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(100, Math.floor((elapsed / totalDuration) * 100));
+
+      if (loaderProgressFill) {
+        loaderProgressFill.style.width = `${progress}%`;
       }
-    }, 180);
+
+      if (loaderStatusText) {
+        if (progress < 30) {
+          loaderStatusText.textContent = `Connexion au flux satellite du Stade Océane (${progress}%)...`;
+        } else if (progress < 65) {
+          loaderStatusText.textContent = `Établissement du flux média sécurisé HD 1080p (${progress}%)...`;
+        } else if (progress < 95) {
+          loaderStatusText.textContent = `Synchronisation du direct HAC TV (${progress}%)...`;
+        } else {
+          loaderStatusText.textContent = `Flux satellite établi • Lancement du direct !`;
+        }
+      }
+
+      if (progress >= 100) {
+        clearInterval(loaderInterval);
+        setTimeout(launchRickroll, 200);
+      }
+    }, 40);
   }
 
+  // Dénouement du Prank : Lancement du Hérisson Meme Song + Rickroll
   function launchRickroll() {
-    // A. Masquer le loader et afficher le Rickroll
+    // 1. Masquer le loader et afficher le Rickroll
     if (officialLoader) officialLoader.classList.add('hidden');
-    rickrollPlayer.classList.remove('hidden');
+    if (rickrollPlayer) rickrollPlayer.classList.remove('hidden');
 
-    // B. Lancer la musique synthétisée 80s "Never Gonna Give You Up"
-    synthAudioController = startRickrollSynthMusic();
+    // 2. Lecture du sons Hérisson avec volume boosté (un minimum fort !)
+    playHerissonMemeSong();
 
-    // C. Démarrer les paroles de karaoké synchronisées
+    // 3. Démarrer les paroles de karaoké synchronisées
     startKaraokeLyrics();
 
-    // D. Explosion de confettis aux couleurs officielles Ciel & Marine
+    // 4. Explosion de confettis aux couleurs officielles Ciel & Marine
     fireHACConfetti();
 
-    // E. Cadrage fluide de l'écran
+    // 5. Cadrage fluide de l'écran
     setTimeout(() => {
-      rickrollPlayer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (rickrollPlayer) {
+        rickrollPlayer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }, 150);
+  }
+
+  // Moteur Audio : Lecture et amplification du son herisson-meme-song.mp3
+  function playHerissonMemeSong() {
+    try {
+      if (!memeAudio) {
+        memeAudio = new Audio('herisson-meme-song.mp3');
+        memeAudio.loop = true;
+      }
+
+      // Initialiser Web Audio pour booster le gain (son bien fort)
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx && !audioCtx) {
+        audioCtx = new AudioCtx();
+        const source = audioCtx.createMediaElementSource(memeAudio);
+        gainNode = audioCtx.createGain();
+        // Gain boosté à 1.8x pour un volume percutant
+        gainNode.gain.setValueAtTime(1.8, audioCtx.currentTime);
+        source.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+      }
+
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      memeAudio.volume = 1.0;
+      memeAudio.play().catch(err => {
+        console.warn('Lecture audio bloquée ou erreur:', err);
+      });
+
+    } catch (err) {
+      console.warn('Audio amplification fallback', err);
+      if (memeAudio) {
+        memeAudio.volume = 1.0;
+        memeAudio.play().catch(() => {});
+      }
+    }
   }
 
   if (startBtn) {
@@ -102,9 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Contrôle Audio (Couper / Remettre le son)
   if (audioToggleBtn) {
     audioToggleBtn.addEventListener('click', () => {
-      if (!synthAudioController) return;
       audioMuted = !audioMuted;
-      synthAudioController.setMuted(audioMuted);
+      if (memeAudio) {
+        memeAudio.muted = audioMuted;
+      }
       if (audioMuted) {
         audioIcon.textContent = '🔇';
         audioLabel.textContent = 'Son coupé';
@@ -117,24 +182,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-
-
   // ------------------------------------------------------------------------
-  // Animation des paroles Karaoké du Rickroll
+  // Animation des paroles Karaoké (Adaptées Hérisson x Pogba)
   // ------------------------------------------------------------------------
   function startKaraokeLyrics() {
     if (!lyricsDisplay) return;
 
     const lyricsSequence = [
-      { text: "🎵 Never gonna give you up...", duration: 2500 },
-      { text: "🎵 Never gonna let you down...", duration: 2500 },
-      { text: "🎵 Never gonna run around and desert you...", duration: 3200 },
-      { text: "🎵 Never gonna make you cry...", duration: 2400 },
-      { text: "🎵 Never gonna say goodbye...", duration: 2400 },
-      { text: "🎵 Never gonna tell a lie and hurt you...", duration: 3200 },
-      { text: "😂 ALORS ÇA A CRU AU RETOUR DE LA PIOCHE AU HAC ??? 😂", duration: 3500 },
-      { text: "💙🩵 POGBA EN NORMANDIE C'ÉTAIT TROP BEAU HEIN ? 🩵💙", duration: 3200 },
-      { text: "🕺 RICKROLLED ! N'OUBLIE PAS DE RESPIRER ! 🕺", duration: 3000 }
+      { text: "🦔🎵 HÉRISSON MEME ACTIVÉ 🎵🦔", duration: 2500 },
+      { text: "😂 T'AS CRU QUE PAUL POGBA SIGNAIT AU HAVRE ??? 😂", duration: 3200 },
+      { text: "💙🩵 LA PIOCHE AU HAVRE C'ÉTAIT TROP BEAU ! 🩵💙", duration: 3000 },
+      { text: "🦔 JE SUIS UN HÉRISSON ! 🦔", duration: 2800 },
+      { text: "🕺 RICKROLLED ET HÉRISSONED PAR PIERRE ! 🕺", duration: 3200 },
+      { text: "💙🩵 ALLEZ LE HAC QUAND MÊME ! 🩵💙", duration: 3000 }
     ];
 
     let currentIdx = 0;
@@ -151,118 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     showNext();
-  }
-
-  // ------------------------------------------------------------------------
-  // Moteur Audio Web Audio API : Rickroll 80s Synth & Bassline
-  // ------------------------------------------------------------------------
-  function startRickrollSynthMusic() {
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return null;
-      const ctx = new AudioCtx();
-
-      const masterGain = ctx.createGain();
-      masterGain.gain.setValueAtTime(0.2, ctx.currentTime);
-      masterGain.connect(ctx.destination);
-
-      let isMuted = false;
-      let isPlaying = true;
-
-      // Table des fréquences réelles de Never Gonna Give You Up
-      const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, Fs4 = 369.99,
-            G4 = 392.00, A4 = 440.00, B4 = 493.88, C5 = 523.25, D5 = 587.33,
-            E5 = 659.25;
-
-      // Séquence Mélodie (Refrain mythique)
-      const melody = [
-        // "Never gonna give you up"
-        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [B4, 0.6], [B4, 0.6], [A4, 1.2],
-        // "Never gonna let you down"
-        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [A4, 0.6], [A4, 0.6], [G4, 0.5], [Fs4, 0.5], [E4, 1.0],
-        // "Never gonna run around and desert you"
-        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [G4, 0.6], [A4, 0.6], [Fs4, 0.5], [E4, 0.5], [D4, 0.6], [D4, 0.4], [D4, 0.4], [A4, 0.6], [G4, 1.4],
-        // "Never gonna make you cry"
-        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [B4, 0.6], [B4, 0.6], [A4, 1.2],
-        // "Never gonna say goodbye"
-        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [D5, 0.7], [B4, 0.6], [G4, 0.6], [G4, 0.5], [Fs4, 0.5], [E4, 1.0],
-        // "Never gonna tell a lie and hurt you"
-        [D4, 0.4], [E4, 0.4], [G4, 0.4], [E4, 0.4], [G4, 0.6], [A4, 0.6], [Fs4, 0.5], [E4, 0.5], [D4, 0.6], [D4, 0.4], [D4, 0.4], [A4, 0.6], [G4, 1.4]
-      ];
-
-      const beatDuration = 0.32;
-
-      function schedulePattern(startAt) {
-        if (!isPlaying) return;
-        let time = startAt;
-
-        melody.forEach(([freq, beats]) => {
-          const noteDuration = beats * beatDuration;
-          
-          // Lead Synth
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          const filter = ctx.createBiquadFilter();
-
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(freq, time);
-
-          filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(2400, time);
-
-          gain.gain.setValueAtTime(0.18, time);
-          gain.gain.exponentialRampToValueAtTime(0.001, time + noteDuration * 0.95);
-
-          osc.connect(filter);
-          filter.connect(gain);
-          gain.connect(masterGain);
-
-          osc.start(time);
-          osc.stop(time + noteDuration);
-
-          // Ligne de Basse punchy
-          const bassOsc = ctx.createOscillator();
-          const bassGain = ctx.createGain();
-          bassOsc.type = 'square';
-          bassOsc.frequency.setValueAtTime(freq / 2, time);
-
-          bassGain.gain.setValueAtTime(0.09, time);
-          bassGain.gain.exponentialRampToValueAtTime(0.001, time + noteDuration * 0.8);
-
-          bassOsc.connect(bassGain);
-          bassGain.connect(masterGain);
-
-          bassOsc.start(time);
-          bassOsc.stop(time + noteDuration);
-
-          time += noteDuration;
-        });
-
-        const totalDuration = time - startAt;
-        setTimeout(() => {
-          if (isPlaying) {
-            schedulePattern(ctx.currentTime + 0.05);
-          }
-        }, (totalDuration - 0.2) * 1000);
-      }
-
-      schedulePattern(ctx.currentTime + 0.05);
-
-      return {
-        setMuted: (muted) => {
-          isMuted = muted;
-          masterGain.gain.setValueAtTime(isMuted ? 0 : 0.2, ctx.currentTime);
-        },
-        stop: () => {
-          isPlaying = false;
-          masterGain.gain.setValueAtTime(0, ctx.currentTime);
-        }
-      };
-
-    } catch (err) {
-      console.warn('Audio Web API skipped', err);
-      return null;
-    }
   }
 
   // ------------------------------------------------------------------------
